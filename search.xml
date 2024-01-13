@@ -55,13 +55,25 @@
     
     
     <entry>
-      <title></title>
+      <title>《记录一次升级libc.so.6的事故》</title>
       <link href="/2023/12/09/%E3%80%8A%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%8D%87%E7%BA%A7libc.so.6%E7%9A%84%E4%BA%8B%E6%95%85%E3%80%8B/"/>
       <url>/2023/12/09/%E3%80%8A%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%8D%87%E7%BA%A7libc.so.6%E7%9A%84%E4%BA%8B%E6%95%85%E3%80%8B/</url>
       
         <content type="html"><![CDATA[<html><head></head><body><p>之前在一家私募公司实习的时候，我做过一次升级glibc的操作，并且还升级成功了，没成想啊没成想，原来升级glibc的操作这么的敏感啊其实。。。我在华为云服务器上运行了如下的命令：</p><p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20231209100657537.png" alt="image-20231209100657537"></p><p>想着先备份一下再给新的复制过去，没成想直接就G了，我提工单，华为云的工程师也没有办法处理（好像具体是因为我的这个服务器的版本的问题，所以导致的他们也没有解决的办法，我真他妈服了，服了服了，只能重装了。</p><p>​以后做类似的操作的时候，要谨慎，谨慎，55555</p></body></html>]]></content>
       
       
+      <categories>
+          
+          <category> bug记录 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> bug记录 </tag>
+            
+        </tags>
       
     </entry>
     
