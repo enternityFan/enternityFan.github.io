@@ -1,0 +1,647 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>寻宝游戏 | 寻宝游戏</title><meta name="author" content="寻宝游戏"><meta name="copyright" content="寻宝游戏"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="《c++Primer》笔记第二章变量类型 类型char和类型signed char不一样，尽管字符型有三种，但是字符的表现只有两种：带符号的和无符号的，类型char会表现为上述两种形式的一种，具体由编译器决定。 程序也应该尽量避免依赖于实现环境的行为。如果我们把int的尺寸看成是一个确定不变的已知值，那么这样的程序就称作不可移植的(nonportable)。当程序移植到别的机器上后，依赖于实现环境">
+<meta property="og:type" content="article">
+<meta property="og:title" content="寻宝游戏">
+<meta property="og:url" content="http://example.com/2024/04/20/%E3%80%8Ac++Primer%E3%80%8B%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="寻宝游戏">
+<meta property="og:description" content="《c++Primer》笔记第二章变量类型 类型char和类型signed char不一样，尽管字符型有三种，但是字符的表现只有两种：带符号的和无符号的，类型char会表现为上述两种形式的一种，具体由编译器决定。 程序也应该尽量避免依赖于实现环境的行为。如果我们把int的尺寸看成是一个确定不变的已知值，那么这样的程序就称作不可移植的(nonportable)。当程序移植到别的机器上后，依赖于实现环境">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg">
+<meta property="article:published_time" content="2024-04-20T07:44:34.678Z">
+<meta property="article:modified_time" content="2024-04-22T01:22:16.481Z">
+<meta property="article:author" content="寻宝游戏">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg"><link rel="shortcut icon" href="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg"><link rel="canonical" href="http://example.com/2024/04/20/%E3%80%8Ac++Primer%E3%80%8B%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//busuanzi.ibruce.info"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '寻宝游戏',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-22 09:22:16'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr class="custom-hr"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/thought/"><i class="fa-fw fa fa-comments-o"></i><span> 杂思</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 图片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="寻宝游戏"><span class="site-name">寻宝游戏</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/thought/"><i class="fa-fw fa fa-comments-o"></i><span> 杂思</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 图片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">无题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-20T07:44:34.678Z" title="发表于 2024-04-20 15:44:34">2024-04-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-22T01:22:16.481Z" title="更新于 2024-04-22 09:22:16">2024-04-22</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">7.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>22分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="《c-Primer》笔记"><a href="#《c-Primer》笔记" class="headerlink" title="《c++Primer》笔记"></a>《c++Primer》笔记</h1><h2 id="第二章变量类型"><a href="#第二章变量类型" class="headerlink" title="第二章变量类型"></a>第二章变量类型</h2><ul>
+<li>类型char和类型signed char不一样，尽管字符型有三种，但是字符的表现只有两种：带符号的和无符号的，类型char会表现为上述两种形式的一种，具体由编译器决定。</li>
+<li>程序也应该尽量避免依赖于实现环境的行为。如果我们把int的尺寸看成是一个确定不变的已知值，那么这样的程序就称作不可移植的(nonportable)。当程序移植到别的机器上后，依赖于实现环境的程序就可能发生错误。要从过去的代码中定位这类错误可不是一件轻松愉快的工作。</li>
+<li>当从无符号数中减去一个值时，不管这个值是不是无符号数，我们都必须确保结果不能是一个负值。</li>
+<li>在c++中，初始化和赋值不是一个概念。</li>
+<li>定义于函数体内的内置类型的对象如果没有初始化，则其值未定义。类的对象如果没有显式地初始化，则其值由类确定。<strong>故建议初始化每一个内置类型的变量。</strong></li>
+<li>变量只能被定义一次，但可以多次声明。</li>
+<li>在第一次使用变量的时候再定义它。</li>
+<li>建议初始化所有指针。</li>
+<li>(void*)指针可以存放任意对象的地址。</li>
+<li>面对一条比较复杂的指针或引用的声明语句时，从右向左阅读有助于弄清楚它的真实含义。</li>
+<li>默认状态下，const对象仅在文件内有效。如果想多个文件之间共享，需要加上extern关键字。</li>
+<li>一般来说，如果你认定变量是一个常量表达式，那就把它声明成constexpr类型。</li>
+</ul>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240420160229611.png" alt="image-20240420160229611"></p>
+<h2 id="第三章-字符串、向量和数组"><a href="#第三章-字符串、向量和数组" class="headerlink" title="第三章 字符串、向量和数组"></a>第三章 字符串、向量和数组</h2><ul>
+<li><strong>头文件不应该包含using声明，因为头文件如果有某个using声明，那么每一个使用了这个头文件的文件就都会有这个声明。</strong></li>
+<li>普通迭代器和常迭代器:</li>
+</ul>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240420165146058.png" alt="image-20240420165146058"></p>
+<ul>
+<li>不要在基于范围的for循环中向vector中添加元素，还有push_back也可能会使迭代器失效。</li>
+<li>迭代器可以进行运算：<code>auto mid = s.begin() + (s.end() - s.begin())/2;</code></li>
+<li>c++的数组是固定大小的。</li>
+<li>c++的数组不允许拷贝和赋值。eg:<code>int a[] = {0,1,2};int a2[] = a; //error  a2 = a; // error</code></li>
+<li>c++11标准库中有begin()和end()两个函数，可以得到容器的首位指针。</li>
+<li>两个指针相减的结果的类型是 <strong>ptrdiff_t</strong>的类型，他是有符号的。</li>
+<li>c++程序最好不用c风格字符串，因为不安全。</li>
+<li>使用数组可以初始化vector的对象:<code>int int_arr[] = {0,1,2,3};vector&lt;int&gt; ivec(begin(int_arr),end(int_arr));</code></li>
+</ul>
+<h1 id="第四章-表达式"><a href="#第四章-表达式" class="headerlink" title="第四章 表达式"></a>第四章 表达式</h1><ul>
+<li>在需要右值的地方可以用左值代替，但是不能把右值当成左值。</li>
+<li>只有四种运算符明确规定了运算对象的求值顺序，1) &amp;&amp;;2)||;3)?:;4),    对于其他的运算符我们是不知道求值的顺序的比如<code>int i = f1() * f2()</code>不一定f1()和f2()是谁先调用，另外<code>cout &lt;&lt; i &lt;&lt; " " &lt;&lt; ++i &lt;&lt; endl;</code>也是未定义的，&lt;&lt;没有规定何时求值。</li>
+<li>处理复合表达式的两个经验建议:1)拿不准的话用括号来强制让表达式的组合关系符合程序逻辑的要求。</li>
+<li>如果改变了某个运算对象的值，在表达式的其他地方不要再使用这个运算对象。</li>
+<li>短路求值(short-circuit evaluation)。对于逻辑与运算符来说，当且仅当左侧运算对象为真时才对右侧运算对象求值。对于逻辑或运算符来说，当且仅当左侧运算对象为假时才对右侧运算对象求值。</li>
+<li>赋值运算符的左侧运算对象必须是一个可修改的左值。</li>
+<li>除非必须，否则不适用递减递增运算符的后置版本。主要其实是为了编译器优化考虑，减少编译器优化。</li>
+<li>reinterpret cast本质上依赖于机器。要想安全地使用reinterpret cast必须对涉及的类型和编译器实现转换的过程都非常了解。</li>
+</ul>
+<h1 id="第五章-语句"><a href="#第五章-语句" class="headerlink" title="第五章 语句"></a>第五章 语句</h1><ul>
+<li>即使不准备在 default标签下做任何工作，定义一个 default 标签也是有用的。其目的在于告诉程序的读者，我们已经考虑到了默认的情况，只是目前<br>什么也没做。</li>
+<li>定义在while条件部分或者while循环体内的变量每次选代都经历从创建到销毁的过程。</li>
+<li><strong>编写异常安全的代码是非常困难的</strong></li>
+</ul>
+<h1 id="第六章-函数"><a href="#第六章-函数" class="headerlink" title="第六章 函数"></a>第六章 函数</h1><ul>
+<li>调用重载函数有三种可能的结果：1.编译器找到一个与实参最佳匹配的函数，并生成调用该函数的代码。2)找不到任何一个函数与调用的实参匹配，此时编译器发出无匹配的错误信息。3)有多于一个函数可以匹配，但是每一个都不是明显的最佳选择。此时也将发生错误，存在二义性调用。</li>
+<li>在C++语言中，名字查找发生在类型检查之前。</li>
+<li>好吧，原来c++ primer都提了inline只是请求了:</li>
+</ul>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="C:\Users\14064\AppData\Roaming\Typora\typora-user-images\image-20240420184059636.png" alt="image-20240420184059636"></p>
+<ul>
+<li>内联函数和constexpr函数可以放在头文件里，因为他们可以在程序中多次定义，但是要保证多个定义必须完全一致。</li>
+<li>类型名的定义通常出现在类的开始处，这样就能确保所有使用该类型的成员都出现在类名的定义之后。</li>
+</ul>
+<h1 id="第七章-类"><a href="#第七章-类" class="headerlink" title="第七章 类"></a>第七章 类</h1><ul>
+<li>定义在类内部的函数是隐式的inline函数。</li>
+<li>对于常成员函数，其声明时参数列表后面的const关键字其实是修改隐式this指针的类型的。</li>
+<li><strong>合成构造函数</strong>：就是编译器生成的构造函数。</li>
+<li>封装的优点:1.确保用户代码不会无意间破坏封装对象的状态。  2.被封装的类的具体实现细节可以随时改变，而无须调整用户级别的代码。一旦把数据成员定义成private的，类的作者就可以比较自由地修改数据了。</li>
+<li>class 的public下面的using和typedef用户也可以使用的。</li>
+<li>可变数据成员用mutable修饰。</li>
+<li>一个const 成员函数如果以引用的形式返回*this，那么它的返回类型将是常量引用。</li>
+<li>编译器处理完类中的全部声明后才会处理成员函数的定义。</li>
+<li>尽管类的成员被隐藏了（当全局变量和类成员名称相同时），但我们仍然可以通过加上类的名字或显式地使用this 指针来强制访问成员。</li>
+<li>最好令构造函数初始值的顺序与成员声明的顺序保持一致。而且如果可能的话，尽量避免使用某些成员初始化其他成员。</li>
+<li>在实际中，如果定义了其他构造函数，那么最好也提供一个默认构造函数。</li>
+</ul>
+<h3 id="什么是聚合类？"><a href="#什么是聚合类？" class="headerlink" title="什么是聚合类？"></a>什么是聚合类？</h3><p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="C:\Users\14064\AppData\Roaming\Typora\typora-user-images\image-20240420202831357.png" alt="image-20240420202831357"></p>
+<h1 id="第八章-IO库"><a href="#第八章-IO库" class="headerlink" title="第八章 IO库"></a>第八章 IO库</h1><ul>
+<li>IO对象无拷贝或者赋值比如说<code>ofstream out1,out2; out1 = out2;//error</code></li>
+<li>当一个fstream对象被销毁时，close会自动调用。</li>
+</ul>
+<h1 id="第九章-顺序容器"><a href="#第九章-顺序容器" class="headerlink" title="第九章 顺序容器"></a>第九章 顺序容器</h1><ul>
+<li>常见的顺序容器:vector 、deque、list、forward_list、array、string。</li>
+<li>通常，vector是最好的选择，除非有更好的理由选择其他容器。</li>
+<li>如果程序有很多小的元素，且空间的额外开销很重要，就不要用list或者forward_list。</li>
+<li>如果程序要求随机访问元素，应使用vector或者deque</li>
+<li>如果程序要求在容器的中间插入或删除元素，应使用list或者forward_list</li>
+<li>如果程序需要在头尾位置插入或删除元素，但不会在中间位置进行插入或删除操<br>作，则使用 deque。</li>
+<li><strong>当不需要写访问时，应用cbegin()和cend()</strong></li>
+<li>当将一个容器初始化为另一个容器的拷贝时，两个容器的容器类型和元素类型<br>都必须相同。</li>
+</ul>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240421143503574.png" alt="image-20240421143503574"></p>
+<ul>
+<li>只有顺序容器的构造函数才接受大小参数，关联容器并不支持。</li>
+<li>标准库array有固定大小<code>array&lt;int,42&gt;</code></li>
+<li>赋值相关运算会导致指向左边容器内部的迭代器、引用和指针失效。而swap 操作将容器内容交换不会导致指向容器的选代器、引用和指针失效容器类型为array和string的情况除外)。</li>
+<li>assign仅顺序容器可用，允许我们从一个不同但相容的类型赋值，或者从容器的一个子序列赋值，比如说可以用assign来将一个vector中的一段char * 赋值给一个list的string。</li>
+<li>除 array外，swap不对任何元素进行拷贝、删除或插入操作，因此可以保证<br>在常数时间内完成：</li>
+</ul>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240421143920343.png" alt="image-20240421143920343"></p>
+<ul>
+<li>向一个 vector、string或deque 插入元素会使所有指向容器的选代器引用和指针失效。</li>
+<li>insert可以插入范围内的元素:</li>
+</ul>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240421144210614.png" alt="image-20240421144210614"></p>
+<ul>
+<li><p>insert的返回值:</p>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240421144556823.png" alt="image-20240421144556823"></p>
+</li>
+<li><p>当我们调用一个emplace成员函数时，则是将参数传递给元素类型的构造函数。emplace成员使用这些参数在容器管理的内存空间中直接构造元素。</p>
+</li>
+<li><p><strong>为了确保下标合法，可以使用at成员函数，如果下标越界at会抛出out_of_range的异常。</strong></p>
+</li>
+<li><p>erase可以删除一个元素，也可以删除多个元素<code>slist.erase(elem1,elem2)</code>,会删除elem1到elem2范围内的元素。</p>
+</li>
+<li><p>如果resize缩小容器，则指向被删除元素的迭代器、引用和指针都会失效;对vector、string或deque进行resize可能导致选代器、指针和引用失效。</p>
+</li>
+<li><p>如果在一个循环中插入/删除deque、string或vector中的元素，不要缓存end 返回的选代器。<strong>我更建议直接就不要缓存end()的迭代器。</strong></p>
+</li>
+<li><p>vector可以调用shrinkto fit来要求 vector 将超出当前大小的多余内存退回给系统。</p>
+</li>
+<li><p>每个 vector实现都可以选择自己的内存分配策略。但是必须遵守的一条原则是:只有当迫不得已时才可以分配新的内存空间。</p>
+</li>
+<li><p>string有两个额外的成员函数:append和replace</p>
+</li>
+</ul>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240421145622488.png" alt="image-20240421145622488"></p>
+<ul>
+<li>string 搜索函数返回string::size type值，该类型是一个unsigned<br>类型。</li>
+<li><strong>容器适配器</strong>：三种顺序容器适配器：stack、queue、priority_queue。本质上，一个适配器是一种机制，能使某种事物的行为看起来像另外一种事物一样。一个容器适配器接受一种已有的容器类型，使其行为看起来像一种不同的类型。例如，stack适配器接受一个顺序容器(除array或forward list外)，并使其操作起来像一个stack 一样。表9.17列出了所有容器适配器都支持的操作和类型。</li>
+</ul>
+<h1 id="第十章-泛型算法"><a href="#第十章-泛型算法" class="headerlink" title="第十章 泛型算法"></a>第十章 泛型算法</h1><p>大多数算法都定义在头文件 algorithm中。标准库还在头文件numeric 中定义了组数值泛型算法。</p>
+<ul>
+<li>一般情况下，这些算法并不直接操作容器，而是遍历由两个迭代器指定的一个元素范<br>围(参见9.2.1节，第296页)来进行操作。通常情况下，算法遍历范围，对其中每个元<br>素进行一些处理。</li>
+<li>迭代器令算法不依赖于容器，但算法依赖于元素类型的操作。</li>
+<li>对于只读取而不改变元素的算法，通常最好使用cbegin()和cend()。但是，如果你计划使用算法返回的选代器来改变元素的值，就需要使用begin()和end()的结果作为参数。</li>
+<li>向目的位置迭代器写入数据的算法假定目的位置足够大，能容纳要写入的元素</li>
+<li><code>vector&lt;int&gt; vec;fill_n(vec.begin(),10,0);</code> 这是一个未定义的行为，因为vec的大小没有10这么大。</li>
+<li>unique函数会消去重复值，把vector后面的元素给删掉。</li>
+<li>stable_sort算法是一个稳定的排序算法，会维持相等元素的原有顺序。</li>
+<li>bind 的标准库函数，它定义在头文件 functional中。可以将 bind 函数看作一个通用<br>的函数适配器(参见9.6节，第329页)，它接受一个可调用对象，生成一个新的可调用对<br>象来“适应”原对象的参数列表。</li>
+<li>placeholders:</li>
+</ul>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240421151519389.png" alt="image-20240421151519389"></p>
+<ul>
+<li>迭代器的四种类型:插入迭代器、流迭代器、反向迭代器、移动迭代器。</li>
+<li>五类迭代器:输入迭代器、输出迭代器、前向迭代器、双向迭代器、随机访问迭代。</li>
+<li>对于 list和forward list,应该优先使用成员函数版本的算法而不是通用算法。</li>
+</ul>
+<h1 id="第十一章-关联容器"><a href="#第十一章-关联容器" class="headerlink" title="第十一章 关联容器"></a>第十一章 关联容器</h1><ul>
+<li>就这么几种：map、set、multimap、multiset、unordered_map、unordered_set、unordered_multimap、unordered_multiset.</li>
+<li>必须记住，一个map的value type 是一个pair，我们可以改变 pair 的值，但不能改变关键字成员的值。</li>
+<li>向map中添加元素:</li>
+</ul>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240421152811118.png" alt="image-20240421152811118"></p>
+<ul>
+<li><strong>insert有返回值，通过判断他的second成员为true，说明插入成功，为false说明已经存在了，什么事情都不做。</strong></li>
+<li><strong>erase函数会返回bool，为true表示删除成功，否则表示删除失败，也就说明了删除的元素并不在容器中。所以说不要删除前find找找了！！！！！！！</strong></li>
+<li>对一个map使用下标操作，其行为与数组或vector上的下标操作很不相同:使用一个不在容器中的关键字作为下标，会添加一个具有此关键字的元素到map中。</li>
+<li>如果关键字类型固有就是无序的，或者性能测试发现问题可以用哈希技术解决，就可以使用无序容器。</li>
+<li>无序容器在存储上组织为一组桶，每个桶保存零个或多个元素。无序容器使用一个哈<br>希函数将元素映射到桶。为了访问一个元素，容器首先计算元素的哈希值，它指出应该搜索哪个桶。容器将具有一个特定哈希值的所有元素都保存在相同的桶中。如果容器允许重复关键字，所有具有相同关键字的元素也都会在同一个桶中。因此，无序容器的性能依赖于哈希函数的质量和桶的数量和大小。无序容器提供了一组管理桶的函数：</li>
+</ul>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240421153326763.png" alt="image-20240421153326763"></p>
+<h1 id="第十二章-动态内存"><a href="#第十二章-动态内存" class="headerlink" title="第十二章 动态内存"></a>第十二章 动态内存</h1><ul>
+<li><p><strong>make shared 用其参数来构造给定类型的对象。</strong></p>
+</li>
+<li><p>如果你将 shared ptr存放于一个容器中，而后不再需要全部元素，而只使用其中一部分，要记得用erase删除不再需要的那些元素。</p>
+</li>
+<li><p>使用了动态生存期的资源的类一般处于下面三种原因（容器类就是第一种原因）：</p>
+<ul>
+<li>1.程序不知道自己需要使用多少对象</li>
+<li>2.程序不知道所需对象的准确类型</li>
+<li>3.程序需要在多个对象间共享数据</li>
+</ul>
+</li>
+<li><p>一旦一个程序用光了它所有可用的内存，new表达式就会失败。默认情况下，如果<br>new不能分配所要求的内存空间，它会抛出一个类型为badalloc(参见5.6节，第173<br>页)的异常。我们可以改变使用new的方式来阻止它抛出异常：<code>int *p2 = new (nothrow) int;// 如果分配失败，new返回一个空指针。</code></p>
+</li>
+<li><p>delete一个空指针总是没有错误的。</p>
+</li>
+<li><p>shared_ptr的构造函数:<br><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240421193019250.png" alt="image-20240421193019250"></p>
+</li>
+<li><p>使用一个内置指针来访问一个智能指针所负责的对象是很危险的，因为我们无<br>法知道对象何时会被销毁。</p>
+</li>
+<li><p>get用来将指针的访问权限传递给代码，你只有在确定代码不会delete指针的情况下，才能使用get。特别是，永远不要用get初始化另一个智能指针或者为另一个智能指针赋值。</p>
+</li>
+<li><p>智能指针陷阱:<br><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240421193328756.png" alt="image-20240421193328756"></p>
+</li>
+<li><p>因为对象可能不存在，所以不能使用weak_ptr来直接访问对象，必须调用lock，这个函数会检查weak_ptr指向的对象是否存在，如果存在的话，lock会返回一个指向共享对象的shared_ptr,使用示例:<code>if (shared_ptr&lt;int&gt; np = wp.lock())</code></p>
+</li>
+<li><p>大多数应用应该使用标准库容器而不是动态分配的数组。使用容器更为简单、更不容易出现内存管理错误并且可能有更好的性能。</p>
+</li>
+<li><p>标准库allocator类定义在头文件memory中，它帮助我们将内存分配和对象构造<br>分离开来。它提供一种类型感知的内存分配方法，它分配的内存是原始的、未构造的。</p>
+</li>
+<li><p>为了使用allocate返回的内存，我们必须用construct构造对象。使用未构造的内存，其行为是未定义的。</p>
+</li>
+<li><p>赋值运算符通常应该返回一个指向其左侧运算对象的引用。</p>
+</li>
+<li><p><strong>三/五法则</strong>：如前所述，有三个基本操作可以控制类的拷贝操作:拷贝构造函数、拷贝赋值运算符和析构函数。而且，在新标准下，一个类还可以定义一个移动构造函数和一个移动赋值运算符。</p>
+</li>
+<li><p>如果一个类需要自定义析构函数，几乎可以肯定它也需要自定义拷贝赋值运算符和拷贝构造函数。</p>
+</li>
+<li><p>需要拷贝操作的类也需要赋值操作，反之亦然。</p>
+</li>
+<li><p>对于析构函数已删除的类型，不能定义该类型的变量或释放指向该类型动态分配对象的指针。</p>
+</li>
+<li><p>希望阻止拷贝的类应该使用=delete来定义它们自己的拷贝构造函数和拷贝赋值运算符，而不应该将它们声明为private的。</p>
+</li>
+<li><p>类的行为像一个值，意味着它应该也有自己的状态。当我们拷贝一个像值的对象时，<br>副本和原对象是完全独立的。改变副本不会对原对象有任何影响，反之亦然。比如说string，标准库容器。</p>
+</li>
+<li><p>行为像指针的类则共享状态。当我们拷贝一个这种类的对象时，副本和原对象使用相<br>同的底层数据。改变副本也会改变原对象，反之亦然。比如说shared_ptr。</p>
+</li>
+<li><p>赋值运算符注意事项:</p>
+</li>
+<li><p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240421202027475.png" alt="image-20240421202027475"></p>
+</li>
+<li><p>一个类展现类似指针的行为的最好方法是使用shared_ptr来管理类中的资源。</p>
+</li>
+<li><p><strong>拷贝赋值运算符通常执行拷贝构造函数和析构函数中也要做的工作。这种情况<br>下，公共的工作应该放在private的工具函数中完成。</strong></p>
+</li>
+<li><p>在移动操作之后，移后源对象必须保持有效的、可析构的状态，但是用户不能<br>对其值进行任何假设。</p>
+</li>
+<li><p>只有当一个类没有定义任何自己版本的拷贝控制成员，且它的所有数据成员都能移动构造或移动赋值时，编译器才会为它合成移动构造函数或移动赋值运算符。</p>
+</li>
+<li><p>在移动构造函数和移动赋值运算符这些类实现代码之外的地方，只有当你确信需要进行移动操作且移动操作是安全的，才可以使用std::move。</p>
+</li>
+<li><p>如果一个成员函数有引用限定符，则具有相同参数列表的所有版本都必须有引用限定符。</p>
+</li>
+</ul>
+<h1 id="第十四章-重载运算与类型转换"><a href="#第十四章-重载运算与类型转换" class="headerlink" title="第十四章 重载运算与类型转换"></a>第十四章 重载运算与类型转换</h1><ul>
+<li>当一个重载的运算符是成员函数时，this绑定到左侧运算对象。成员运算符函数的(显式)参数数量比运算对象的数量少一个。</li>
+<li>可重载的和不可重载的运算符:</li>
+</ul>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240421203644342.png" alt="image-20240421203644342"></p>
+<ul>
+<li>通常情况下，不应该重载逗号、取地址、逻辑与和逻辑或运算符。</li>
+<li>运算符定义为成员还是普通函数的选择建议:</li>
+</ul>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240421203804159.png" alt="image-20240421203804159"></p>
+<ul>
+<li>通常，输出运算符应该主要负责打印对象的内容而非控制格式，输出运算符不应该打印换行符。</li>
+<li><strong>输入输出运算符必须是非成员函数。</strong></li>
+<li>当读取操作发生错误时，输入运算符应该负责从错误中恢复，输入运算符必须处理输入可能失败的情况，而输出运算符不需要。</li>
+<li>如果类定义了operator== ，则这个类也应该定义operator!=。对于用户来说,当他们能使用==时肯定也希望能使用!=，反之亦然。</li>
+<li>如果存在唯一一种逻辑可靠的&lt;定义，则应该考虑为这个类定义&lt;运算符。如果类同时还包含–,则当且仅当&lt;的定义和==产生的结果一致时才定义&lt;运算符。</li>
+<li>赋值运算符必须定义成类的成员，复合赋值运算符通常情况下也应该这样做。这两类运算符都应该返回左侧运算对象的引用。</li>
+<li>如果一个类包含下标运算符，则它通常会定义两个版本:一个返回普通引用，<br>另一个是类的常量成员并且返回常量引用。</li>
+<li>定义递增和递减运算符的类应该同时定义前置版本和后置版本。这些运算符通常应该被定义成类的成员。</li>
+<li>为了与内置版本保持一致，前置运算符应该返回递增或递减后对象的引用。</li>
+<li>为了与内置版本保持一致，后置运算符应该返回对象的原值(递增或递减之前<br>的值)，返回的形式是一个值而非引用。</li>
+<li>标准库定义了一组表示算术运算符、关系运算符和逻辑运算符的类，每个类分别定义<br>了一个执行命名操作的调用运算符：</li>
+</ul>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240421205959017.png" alt="image-20240421205959017"></p>
+<ul>
+<li>function模板实现函数表:</li>
+</ul>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240421210335755.png" alt="image-20240421210335755"></p>
+<ul>
+<li>类型转换操作符:类型转换运算符(conversion operator)是类的一种特殊成员函数，它负责将一个类类型的值转换成其他类型。类型转换函数的一般形式如下所示:<code>operator type()const;</code></li>
+<li>向 bool的类型转换通常用在条件部分，因此operatorbool一般定义成explicit的。</li>
+<li>通常情况下，不要为类定义相同的类型转换，也不要在类中定义两个及两个以上转换源或转换目标是算术类型的转换。</li>
+</ul>
+<h1 id="第十五章-面向对象程序设计"><a href="#第十五章-面向对象程序设计" class="headerlink" title="第十五章 面向对象程序设计"></a>第十五章 面向对象程序设计</h1><ul>
+<li>基类通常都应该定义一个虚析构函数，即使该函数不执行任何实际操作也是如此。</li>
+<li>派生类可以访问基类的公有成员和受保护成员。</li>
+<li>首先初始化基类的部分，然后按照声明的顺序依次初始化派生类的成员。</li>
+<li>如果虚函数使用默认实参，则基类和派生类中定义的默认实参最好一致。</li>
+<li>如果一个派生类虚函数需要调用它的基类版本，但是没有使用作用域运算<br>符，则在运行时该调用将被解析为对派生类版本自身的调用，从而导致无限<br>递归。下面是一个回避虚函数机制的例子，通过利用作用域限定符来调用父类的函数:</li>
+</ul>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class Child: public Father</span><br><span class="line">{...};</span><br><span class="line">Father* baseP = new Child();</span><br><span class="line">auto undiscounted = baseP-&gt;Father::net_price(42);//正确，使用了作用域限定符。</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li>一个类使用protected关键字来声明那些它希望与派生类分享但是不想被其他公共访问使用的成员。protected说明符可以看做是public和private中和后的产物。</li>
+<li>不能继承友元关系;每个类负责控制各自成员的访问权限。</li>
+<li><strong>派生类只能为那些它可以访问的名字提供using声明，来改变个别成员的可访问性</strong>：</li>
+</ul>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Base{</span><br><span class="line">public:</span><br><span class="line">	std::size_t size() const {return n;}</span><br><span class="line">protected:</span><br><span class="line">	std::size_t n;</span><br><span class="line"></span><br><span class="line">};</span><br><span class="line">class Derived: private Base{</span><br><span class="line">public:</span><br><span class="line">	using Base::size; // 本来该是private的，转换为了public，和父类保持了一直。</span><br><span class="line">protected:</span><br><span class="line">	using Base::n;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li><strong>派生类的成员将隐藏同名的基类成员。</strong></li>
+<li>除了覆盖继承而来的虚函数之外,派生类最好不要重用其他定义在基类中的名字。</li>
+<li>当派生类定义了拷贝或移动操作时，该操作负责拷贝或移动包括基类部分成员<br>在内的整个对象。</li>
+</ul>
+<h1 id="第十六章-模板与泛型编程"><a href="#第十六章-模板与泛型编程" class="headerlink" title="第十六章 模板与泛型编程"></a>第十六章 模板与泛型编程</h1><ul>
+<li>编译器用推断出的模板参数来为我们实例化(instantiate)一个特定版本的函数。当编<br>译器实例化一个模板时，它使用实际的模板实参代替对应的模板参数来创建出模板的一个<br>新“实例”。</li>
+<li>函数模板可以声明为inline或constexpr的，如同非模板函数一样。inline或constexpr说明符放在模板参数列表之后，返回类型之前:<code>template&lt;class T&gt; inline void min(T a,T b);</code></li>
+<li>模板程序应该尽量减少对实参类型的要求。</li>
+<li>保证传递给模板的实参支持模板所要求的操作，以及这些操作在模板中能正确工作，是调用者的责任。</li>
+<li>默认情况下，对于一个实例化了的类模板，其成员只有在使用时才被实例化。</li>
+<li>类模板与另一个(类或函数)模板间友好关系的最常见的形式是建立对应实例及其友<br>元间的友好关系。</li>
+<li>一个类也可以将另一个模板的每个实例都声明为自己的友元，或者限定特定的实例为<br>友元。<strong>也可以将模板的类型参数当做友元。。<code>template&lt;Typename Type&gt; class Base{friend Type;}</code></strong></li>
+<li>一个特定文件所需要的所有模板的声明通常一起放置在文件开始位置，出现于<br>任何使用这些模板的代码之前。</li>
+<li><strong>对模板设计者所面对的设计选择，标准库智能指针类型给出了一个很好的展示。</strong>主要可以考虑shared_ptr。</li>
+<li>标准库的类型转换模板:</li>
+</ul>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240422085651552.png" alt="image-20240422085651552"></p>
+<ul>
+<li>模板及其特例化版本应该声明在同一个头文件中。所有同名模板的声明应该放<br>在前面，然后是这些模板的特例化版本。</li>
+</ul>
+<h1 id="第十七章-标准库特殊设施"><a href="#第十七章-标准库特殊设施" class="headerlink" title="第十七章 标准库特殊设施"></a>第十七章 标准库特殊设施</h1><ul>
+<li>当我们希望将一些数据组合成单一对象,但又不想麻烦地定义一个新数据结构来表示<br>这些数据时，tuple是非常有用的。</li>
+<li>由于 tuple 定义了&lt;和==运算符，我们可以将tuple序列传递给算法，并且可以在无序容器中将tuple作为关键字类型。</li>
+<li>string的下标编号习惯与bitset恰好相反:string中下标最大的字符(最右字符)用来初始化bitset中的低位(下标为0的二进制位)。当你用一个<br>string初始化一个bitset时，要记住这个差别。</li>
+<li>C++程序不应该使用库函数rand，而应使用default random engine 类和恰当的分布类对象。</li>
+<li>当我们说随机数发生器时，是指分布对象和引擎对象的组合。</li>
+<li>除非你需要控制浮点数的表示形式(如，按列打印数据或打印表示金额或百分<br>比的数据)，否则由标准库选择记数法是最好的方式。</li>
+</ul>
+<h1 id="之前记录的合并过来"><a href="#之前记录的合并过来" class="headerlink" title="之前记录的合并过来"></a>之前记录的合并过来</h1><ol>
+<li><p>想声明一个变量而非定义它，那么在变量名前添加extern,而且不要显式的初始化变量。</p>
+<p>即extern int i;如果写为extern int i=10,那么就变为定义了。</p>
+</li>
+<li><p>引用的类型要和与之绑定的对象严格匹配。</p>
+</li>
+<li><p>指针的类型要和与之绑定的对象严格匹配。</p>
+</li>
+<li><p>空指针的三种等价方法：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int *p1 = nullptr;</span><br><span class="line">int *p2 = 0;</span><br><span class="line">int *p3 = NULL;</span><br></pre></td></tr></tbody></table></figure>
+
+
+</li>
+<li><p>面对一条比较复杂的指针或引用的声明语句时，从右往左读有助于理解他的真实含义，如<code>int *&amp;r=p</code>的意思是r是对整型指针p的引用。</p>
+</li>
+<li><p>要想存放常量对象的地址，只能使用指向常量的指针。同时指针常量也可以指向非常量。</p>
+</li>
+<li><p>顶层const表示指针本身是个常量，底层const表示指针所知的对象是一个常量。</p>
+</li>
+<li><p>一般来说，如果你认定变量是一个常量表达式，那就把它声明成constexpr类型。</p>
+</li>
+<li><p>头文件不应包含using声明</p>
+</li>
+<li><p>string.size()返回的是string::size_type类型的值。</p>
+</li>
+</ol>
+<h1 id="suggestion"><a href="#suggestion" class="headerlink" title="suggestion"></a>suggestion</h1><ul>
+<li>初始化变量。</li>
+<li>检查下标的值。</li>
+<li>尽量使用for-range循环，并且保证过程中不会改变容器的大小。</li>
+<li>简洁可以成为一种美德。</li>
+<li>移位运算符满足左结合律，即<code>cout &lt;&lt;"hi" &lt;&lt; "here" &lt;&lt; endl;</code>等价于<code>((cout &lt;&lt; "hi") &lt;&lt; "there" ) &lt;&lt; endl;</code></li>
+<li>sizeof运算符满足右结合律。<code>sizeof * p</code>，因为其中sizeof和*的优先级是一样的，但是呢又因为满足右结合律，所以是从右往左的顺序求值的，就是<code>sizeof(*p)</code></li>
+<li></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">寻宝游戏</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/04/20/%E3%80%8Ac++Primer%E3%80%8B%E7%AC%94%E8%AE%B0/">http://example.com/2024/04/20/%E3%80%8Ac++Primer%E3%80%8B%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">寻宝游戏</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer=""></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/21/%E6%89%8B%E6%9C%BA%E6%91%84%E5%BD%B1%E7%AC%94%E8%AE%B0/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info"></div></div></a></div><div class="next-post pull-right"><a href="/2024/01/10/Go%E8%AF%AD%E8%A8%80%E5%B8%B8%E7%94%A8%E5%BA%93%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B/" title="语言常见库示例"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">语言常见库示例</div></div></a></div></nav><hr class="custom-hr"><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div id="comment-switch"><span class="first-comment">Gitalk</span><span class="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="author-info__name">寻宝游戏</div><div class="author-info__description">思维的乐趣。</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/enternityFan"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Do your own thing...</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E3%80%8Ac-Primer%E3%80%8B%E7%AC%94%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">《c++Primer》笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0%E5%8F%98%E9%87%8F%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.</span> <span class="toc-text">第二章变量类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84"><span class="toc-number">1.2.</span> <span class="toc-text">第三章 字符串、向量和数组</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">第四章 表达式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E8%AF%AD%E5%8F%A5"><span class="toc-number">3.</span> <span class="toc-text">第五章 语句</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%87%BD%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">第六章 函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%B1%BB"><span class="toc-number">5.</span> <span class="toc-text">第七章 类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%81%9A%E5%90%88%E7%B1%BB%EF%BC%9F"><span class="toc-number">5.0.1.</span> <span class="toc-text">什么是聚合类？</span></a></li></ol></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%85%AB%E7%AB%A0-IO%E5%BA%93"><span class="toc-number">6.</span> <span class="toc-text">第八章 IO库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8"><span class="toc-number">7.</span> <span class="toc-text">第九章 顺序容器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E7%AB%A0-%E6%B3%9B%E5%9E%8B%E7%AE%97%E6%B3%95"><span class="toc-number">8.</span> <span class="toc-text">第十章 泛型算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E5%85%B3%E8%81%94%E5%AE%B9%E5%99%A8"><span class="toc-number">9.</span> <span class="toc-text">第十一章 关联容器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0-%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98"><span class="toc-number">10.</span> <span class="toc-text">第十二章 动态内存</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E9%87%8D%E8%BD%BD%E8%BF%90%E7%AE%97%E4%B8%8E%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">11.</span> <span class="toc-text">第十四章 重载运算与类型转换</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1"><span class="toc-number">12.</span> <span class="toc-text">第十五章 面向对象程序设计</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0-%E6%A8%A1%E6%9D%BF%E4%B8%8E%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B"><span class="toc-number">13.</span> <span class="toc-text">第十六章 模板与泛型编程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E4%B8%83%E7%AB%A0-%E6%A0%87%E5%87%86%E5%BA%93%E7%89%B9%E6%AE%8A%E8%AE%BE%E6%96%BD"><span class="toc-number">14.</span> <span class="toc-text">第十七章 标准库特殊设施</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B9%8B%E5%89%8D%E8%AE%B0%E5%BD%95%E7%9A%84%E5%90%88%E5%B9%B6%E8%BF%87%E6%9D%A5"><span class="toc-number">15.</span> <span class="toc-text">之前记录的合并过来</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#suggestion"><span class="toc-number">16.</span> <span class="toc-text">suggestion</span></a></li></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/01/%E5%B7%A6%E7%A8%8B%E4%BA%91%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98/" title="无题">无题</a><time datetime="2024-07-01T00:56:47.038Z" title="发表于 2024-07-01 08:56:47">2024-07-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/06/16/%E9%9D%A2%E8%AF%95%E8%A3%85%E9%80%BC%E6%8C%87%E5%8D%97/" title="无题">无题</a><time datetime="2024-06-16T08:55:44.994Z" title="发表于 2024-06-16 16:55:44">2024-06-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/06/16/%E7%8E%B0%E4%BB%A3C++%E6%A6%82%E5%BF%B5%E7%AC%94%E8%AE%B0/" title="无题">无题</a><time datetime="2024-06-16T07:09:09.546Z" title="发表于 2024-06-16 15:09:09">2024-06-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/06/03/%E5%B7%A6%E7%A8%8B%E4%BA%91%E7%AE%97%E6%B3%95%E5%A4%8D%E4%B9%A0/" title="无题">无题</a><time datetime="2024-06-03T00:32:47.295Z" title="发表于 2024-06-03 08:32:47">2024-06-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/30/%E5%B0%8F%E5%BD%AD%E8%80%81%E5%B8%88%E7%BD%91%E8%AF%BE/" title="无题">无题</a><time datetime="2024-05-30T01:05:56.979Z" title="发表于 2024-05-30 09:05:56">2024-05-30</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">©2020 - 2025 By 寻宝游戏</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '',
+      clientSecret: '',
+      repo: '',
+      owner: '',
+      admin: [''],
+      id: '1541940feb464f1f3b5443a0ab7e289f',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    getCSS('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css')
+    getScript('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.textContent= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !false) {
+  if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script><script>function loadDisqus () {
+  const disqus_config = function () {
+    this.page.url = 'http://example.com/2024/04/20/%E3%80%8Ac++Primer%E3%80%8B%E7%AC%94%E8%AE%B0/'
+    this.page.identifier = '/2024/04/20/%E3%80%8Ac++Primer%E3%80%8B%E7%AC%94%E8%AE%B0/'
+    this.page.title = ''
+  }
+
+  const disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  btf.addModeChange('disqus', disqusReset)
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
+
+if ('Gitalk' === 'Disqus' || !false) {
+  if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><div class="aplayer no-destroy" data-id="8507814393" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async="" data-pjax="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"></div></div><hr><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: true,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script><script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>

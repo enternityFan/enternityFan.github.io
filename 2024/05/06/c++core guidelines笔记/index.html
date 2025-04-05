@@ -1,0 +1,531 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>寻宝游戏 | 寻宝游戏</title><meta name="author" content="寻宝游戏"><meta name="copyright" content="寻宝游戏"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="规则 DRY（dont repeat yourself) 不要重复自己，即不应该多次编写相同的代码。 KISS( keep it simple,stupid) 保持简单，让傻瓜都能理解。 NNN(No Naked New)不要裸的New的缩写，它意味着内存分配的结果应该交给一个管理者对象。 YAGNI(you aren’t gonna need it)你不会需要它原则，不要在代码中预先投入过多的精">
+<meta property="og:type" content="article">
+<meta property="og:title" content="寻宝游戏">
+<meta property="og:url" content="http://example.com/2024/05/06/c++core%20guidelines%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="寻宝游戏">
+<meta property="og:description" content="规则 DRY（dont repeat yourself) 不要重复自己，即不应该多次编写相同的代码。 KISS( keep it simple,stupid) 保持简单，让傻瓜都能理解。 NNN(No Naked New)不要裸的New的缩写，它意味着内存分配的结果应该交给一个管理者对象。 YAGNI(you aren’t gonna need it)你不会需要它原则，不要在代码中预先投入过多的精">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg">
+<meta property="article:published_time" content="2024-05-06T12:09:38.441Z">
+<meta property="article:modified_time" content="2024-05-08T00:33:02.918Z">
+<meta property="article:author" content="寻宝游戏">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg"><link rel="shortcut icon" href="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg"><link rel="canonical" href="http://example.com/2024/05/06/c++core%20guidelines%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//busuanzi.ibruce.info"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '寻宝游戏',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-05-08 08:33:02'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr class="custom-hr"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/thought/"><i class="fa-fw fa fa-comments-o"></i><span> 杂思</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 图片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="寻宝游戏"><span class="site-name">寻宝游戏</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/thought/"><i class="fa-fw fa fa-comments-o"></i><span> 杂思</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 图片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">无题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-05-06T12:09:38.441Z" title="发表于 2024-05-06 20:09:38">2024-05-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-05-08T00:33:02.918Z" title="更新于 2024-05-08 08:33:02">2024-05-08</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h1><ul>
+<li>DRY（dont repeat yourself) 不要重复自己，即不应该多次编写相同的代码。</li>
+<li>KISS( keep it simple,stupid) 保持简单，让傻瓜都能理解。</li>
+<li>NNN(No Naked New)不要裸的New的缩写，它意味着内存分配的结果应该交给一个管理者对象。</li>
+<li>YAGNI(you aren’t gonna need it)你不会需要它原则，不要在代码中预先投入过多的精力以使其成为可重用的库，而是要先写出代码，使其有可能被复用。</li>
+</ul>
+<h1 id="chapter-2-理念"><a href="#chapter-2-理念" class="headerlink" title="chapter 2 理念"></a>chapter 2 理念</h1><ul>
+<li>要注意未定义行为和实现定义行为。</li>
+<li>代码赢表达意图。</li>
+<li><strong>理想情况下，程序应该是静态类型安全的。</strong></li>
+<li>编译期检查优先于运行期检查，编译期不能检查的应该在运行期检查，要尽早识别运行期错误。</li>
+<li><strong>不可变数据优先于可变数据，常量在并发程序中有很大的优势。</strong></li>
+<li>选择使用辅助工具。</li>
+</ul>
+<h1 id="chapter3-接口"><a href="#chapter3-接口" class="headerlink" title="chapter3 接口"></a>chapter3 接口</h1><ul>
+<li>让接口易用，难以错误使用。</li>
+<li>避免非const的全局变量，他们会在函数中注入隐藏的依赖，同时会破坏封装，所以我们也需要避免单例。</li>
+<li>推荐用注入依赖的方式来消除隐藏依赖，典型方式是构造函数、设置函数成员或模板参数。p14页</li>
+<li>不要用单个指针来传递数组，，可以利用std::span来包一层，避免UB。</li>
+<li>为了库ABI稳定考虑使用PImpl惯用法。</li>
+</ul>
+<h1 id="Chapter4-函数"><a href="#Chapter4-函数" class="headerlink" title="Chapter4 函数"></a>Chapter4 函数</h1><ul>
+<li><strong>如果函数有可能需要在编译期求值，就把它声明为constexpr</strong>，这是纯函数，也是线程安全的。</li>
+<li>纯函数是指在给定相同参数时总返回相同结果的函数。</li>
+<li>对于入参，拷贝开销低的类型按值传递<code>(sizeof(par) &lt;= 2 * sizeof(void*))</code>,否则以const引用的方式传递。</li>
+<li>参数传递：所有权语义：</li>
+</ul>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240506202243356.png" alt="image-20240506202243356"></p>
+<ul>
+<li>返回T* （仅仅）用于表示位置；</li>
+<li>当不希望发生拷贝，也不需要表达“没有返回对象”时，应返回 T&amp;</li>
+<li>不要返回T&amp;&amp; 也不要返回 std::move(本地变量)</li>
+</ul>
+<h1 id="Chapter5-类和类层次结构"><a href="#Chapter5-类和类层次结构" class="headerlink" title="Chapter5 类和类层次结构"></a>Chapter5 类和类层次结构</h1><ul>
+<li>把相关的数据组织到结构(struct 或者class)中。</li>
+<li>当类具有不变式时使用class，如果数据成员可以独立变化则使用struct。</li>
+<li><strong>在类中体现出接口和实现之间的区别。</strong></li>
+<li>如果一个函数不需要访问类的内部结构，就不应该是成员。</li>
+<li><strong>值类型：如果一个类行为像值，就是值类型。</strong></li>
+<li>规范类型是行为类似于int的类型，一般支持：默认构造、拷贝构造、拷贝赋值、移动构造、移动赋值、析构、交换操作，相等运算符。</li>
+<li>半规范类型则和规范类型相比，不支持==和!=运算符。</li>
+<li>优先使用具体类型，而不是类层次结构。</li>
+<li>确保可拷贝的（值类型）类有默认构造函数。</li>
+<li><strong>默认情况下，把单参数的构造函数和转换运算符声明为explicit。</strong></li>
+<li><strong>在使用常量初始化时，优先选择类内初始化器，而不是构造函数的成员初始化，然后在构造函数里优先使用初始化而不是赋值。</strong></li>
+<li>使用委托构造函数来表明类的所有构造函数的共同动作。</li>
+<li>使用继承构造函数将构造函数导入不需要进一步显式初始化的派生类中。</li>
+<li><strong>我们要保证自赋值安全，即x = x不应该改变x的值。</strong>对于STL容器、string、和内置类型，如int等，拷贝/移动赋值对于自赋值是安全的，自动生成的拷贝/移动赋值运算符对于自赋值也是安全的。使用自赋值安全的类型自动生成的拷贝/移动赋值运算符也是如此。所以，<strong>我们应该利用上面的特点，避免多余、高开销的自赋值检查，因为这会让性能变差。</strong></li>
+<li>多态类是定义或继承了至少一个虚函数的类，拷贝一个多态类容易出现切片，要小心。</li>
+<li>如果一个类在对象销毁时需要有明确的动作，就定义析构函数。</li>
+<li><strong>如果类里有原始指针或引用，请考虑它是否有所有权。</strong></li>
+<li><strong>如果类有具有所有权的指针成员，请定义析构函数，去负责销毁。</strong></li>
+<li>基类的析构函数应该要么是public且virtual，要么是protected且非virtual，如果基类的析构函数是protected，那么就不能用积累的指针或者引用来销毁派生对象。</li>
+<li><strong>一个类如果要成为规范类型的话，就必须支持swap函数，并且swap不应该失败，应被生命为noexcept</strong>。</li>
+<li><strong>使==对操作符的类型对称，并使其noexcept</strong>，这一条有意思的，看下面示例,注意，由于下面示例用explicit避免了隐式转换，所以我们需要再多定义两个friend函数来实现:</li>
+</ul>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class MyInt{</span><br><span class="line">	int num;</span><br><span class="line">public:</span><br><span class="line">	explicit MyInt(int n):num(n){};</span><br><span class="line">	friend bool operator == (const MyInt&amp; lhs,const MyInt&amp; rhs)noexcept {</span><br><span class="line">	retrurn lhs.num == rhs.num;</span><br><span class="line">	}</span><br><span class="line">	friend bool operator == (int lhs,const MyInt&amp; rhs)noexcept {</span><br><span class="line">	retrurn lhs == rhs.num;</span><br><span class="line">	}</span><br><span class="line">	friend bool operator == (const MyInt&amp; lhs,int rhs)noexcept {</span><br><span class="line">	retrurn lhs.num == rhs;</span><br><span class="line">	}</span><br><span class="line">};</span><br><span class="line"></span><br><span class="line">MyInt(5) == 5;//Ok</span><br><span class="line">5 == MyInt(5); //Ok</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+
+<ul>
+<li><p>当心基类的==、！=、&lt;、&lt;=、&gt;、&gt;=。</p>
+</li>
+<li><p><strong>基类通常有两种用途：接口继承，实现继承。</strong>接口继承使用公共继承，把用户和实现分开，允许派生类增加或改变基类的功能而不影响基类的用户。实现继承经常使用私有继承，典型情况下派生类通过调整基类的功能来提供其功能，实现继承的一个典型例子是适配器模式。</p>
+</li>
+<li><p>仅使用类的层次结构啦表达具有内在层次结构的概念。</p>
+</li>
+<li><p>如果基类被当做接口使用，就把它变为抽象类。</p>
+</li>
+<li><p>当需要完全分离接口和实现时，以抽象类作为接口。</p>
+</li>
+<li><p><strong>若要对多态类进行深拷贝，应使用虚函数clone，而不是公开的拷贝构造/赋值，因为拷贝一个多态类可能会导致切片问题。</strong>为了解决这个问题，通过虚的clone函数让他根据实际类型进行复制并返回一个到新对象的有所有权的指针（unique_ptr)。在派生类里，通过使用所谓的协变返回类型来返回派生类型。</p>
+<p><strong>协变返回类型</strong>：允许覆盖成员函数返回被覆盖成员函数的返回类型的派生类型。==这个协变返回类型还是很有意思的，可以看眼实现==</p>
+</li>
+<li><p>不要无缘无故把成员函数变为virtual，是需要代价的。</p>
+</li>
+<li><p>避免protected数据，如果把protected数据放在了基类里，就不能单独考虑派生类，因而破坏了封装。在进行protected要问三个问题：1.必须实现一个构造函数来初始化protected数据吗？  2.protected数据他们的实际价值是什么？  3.修改protected数据谁会受到影响？</p>
+</li>
+<li><p>确保所有的非const数据成员有相同的访问级别。</p>
+</li>
+<li><p>在设计类的层次结构时，要区分实现继承和接口继承。纯接口继承是指你的基类只有纯虚函数。</p>
+</li>
+<li><p><strong>不要为虚函数和它的覆盖函数提供不同的默认参数</strong>。</p>
+</li>
+<li><p><strong>永远不要把指向派生类对象数组的指针赋值给指向基类的指针。</strong></p>
+</li>
+<li><p>应当对带有常规含义的操作使用运算符，比如说比较操作、算数操作、对象访问、对象赋值、输入和输出操作。</p>
+</li>
+<li><p>对于对称的运算符，应采用非成员函数。</p>
+</li>
+<li><p>重载的操作应当大致等价，仅对大致等价的操作进行重载。</p>
+</li>
+<li><p>使用联合体来节约内存，但不要使用裸联合体，尽量使用带标签联合体，如std::variant.</p>
+</li>
+</ul>
+<h1 id="chapter6-枚举"><a href="#chapter6-枚举" class="headerlink" title="chapter6 枚举"></a>chapter6 枚举</h1><ul>
+<li>传统枚举的缺陷：没有作用域、会隐式转换为int、会污染全局命名空间、类型未知。</li>
+<li>优先使用enum class，并且仅在必要时指定有作用域枚举的底层类型和枚举项的值。</li>
+</ul>
+<h1 id="chapter7-资源管理"><a href="#chapter7-资源管理" class="headerlink" title="chapter7 资源管理"></a>chapter7 资源管理</h1><p><strong>资源管理关键点是所有权。</strong></p>
+<ul>
+<li>原始指针(T*)以及原始引用(T&amp;) 不表示所有权。</li>
+<li>在一条表达式语句中最多进行一次显式资源分配。</li>
+<li>用unique_ptr或shared_ptr表示所有权。</li>
+<li>除非需要共享所有权，否则能用unique_ptr就别用shared_ptr。</li>
+<li>使用make_shared()创建shared_ptr和使用make_unique()创建unique_ptr。</li>
+<li>用weak_ptr来打破shared_ptr形成的环。</li>
+<li>函数参数的语义：</li>
+</ul>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/image-20240507081541543.png" alt="image-20240507081541543"></p>
+<ul>
+<li>不要传递从指针别名中获得的指针或引用。</li>
+<li><strong>按值接受智能指针作为函数参数以表达所有权语义；按引用接受智能指针以表达函数可能会重装智能指针。</strong></li>
+</ul>
+<h1 id="Chapter8-表达式和语句"><a href="#Chapter8-表达式和语句" class="headerlink" title="Chapter8 表达式和语句"></a>Chapter8 表达式和语句</h1><ul>
+<li><p><strong>优先使用标准库，而不是其他库和“手工代码。</strong></p>
+</li>
+<li><p>始终初始化对象，优先使用{}初始化语法。</p>
+</li>
+<li><p><strong>使用lambda表达式进行复杂的初始化，尤其是对于const变量。</strong>如:</p>
+</li>
+<li><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const widget x = [&amp;]{</span><br><span class="line">	widget val;</span><br><span class="line">	for(auto i=2;i&lt;=N;++i){</span><br><span class="line">		val += some_obj.do_something_with(i);</span><br><span class="line">	}</span><br><span class="line">	return val;</span><br><span class="line">}();</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+
+</li>
+<li><p>保持指针的使用简单明了。</p>
+</li>
+<li><p><strong>避免有未定义的求职顺序表达式</strong>。如：v[i] = ++i; // UB</p>
+</li>
+<li><p>不要依赖函数参数的求值顺序。</p>
+</li>
+<li><p>要避免转型，如果必须转型，请使用具名转型，如: static_cast、const_cast、reinterpret_cast、dynamic_cast、std::move、std::forward。</p>
+</li>
+<li><p>不要用转型去除const。</p>
+</li>
+<li><p>除非有特殊原因，否则应使用有符号的整数，不要混合使用有符号和无符号算术。</p>
+</li>
+<li><p>请注意，上溢和下溢是未定义行为，通常在程序运行时以崩溃告终。</p>
+</li>
+</ul>
+<h1 id="Chapter9-性能"><a href="#Chapter9-性能" class="headerlink" title="Chapter9 性能"></a>Chapter9 性能</h1><ul>
+<li><strong>错误的优化：1.不要无故优化、2.不要过早进行优化、3.不要优化并非性能关键的东西。</strong></li>
+<li><strong>错误的假设：1.不要假设复杂的代码一定比简单的快、2.不要假设低级代码一定比高级代码块、3.不要在没有测量的情况下对性能妄下断言。</strong></li>
+<li>如果想知道哪段代码优化的更好，就必须研究生成的汇编指令。</li>
+<li>我们的设计应该允许优化。</li>
+<li>有很多方法可以帮助编译器生成更优化的代码：1.写本地代码，若使用就地调用的lambda表达式来调整sort的行为代码会更快，但是如果函数在另外一个翻译单元中，对优化器来说是一个硬边界。 2.写简单的代码，这样优化器会搜寻可以被优化的已知模式。  3.给予编译器额外的提示：如果函数不抛出异常就声明为noexcept,或者如果虚函数不应该被覆盖就声明为final，这对优化器来说也是很有意义的。</li>
+<li><strong>将计算从运行期移至编译期</strong>。</li>
+<li>以可预测的方式访问内存，这也是为什么vector快的原因。</li>
+</ul>
+<h1 id="Chapter10-并发"><a href="#Chapter10-并发" class="headerlink" title="Chapter10 并发"></a>Chapter10 并发</h1><ul>
+<li>假设代码将作为多线程程序的一部分来运行。</li>
+<li>避免数据竞争。<strong>如果程序有数据竞争，那么程序就有未定义行为</strong>。</li>
+<li>尽量减少对可写数据的显式共享。</li>
+<li>只要可行，就用工具对并发代码进行验证，ThreadSanitizer提供了全局信息，检测程序的执行是否存在数据竞争，CppMem能让你深入理解代码里的小片段。</li>
+<li>将汇合thread看作一个有作用域的容器，将thread看作一个全局容器。</li>
+<li>优先使用jthread，而不是thread。</li>
+<li>不要对线程调用detach()</li>
+<li>在线程之间传递少量数据时使用值传递，而不是引用或指针。</li>
+<li>要在不相关的thread之间分享所有权，请使用shared_ptr。</li>
+<li><strong>尽量减少上下文切换，尽量减少线程的创建和销毁。</strong></li>
+<li>使用future从并发任务返回值，使用async()生成并发任务。</li>
+<li>使用诺值和期值来同步线程，他们和条件变量有很多共同之处，一般来说也会更加安全。</li>
+<li><strong>除非绝对需要，否则不要使用无锁编程。</strong></li>
+<li>不要轻信硬件/编译器组合。</li>
+</ul>
+<h1 id="Chapter11-错误处理"><a href="#Chapter11-错误处理" class="headerlink" title="Chapter11 错误处理"></a>Chapter11 错误处理</h1><ul>
+<li>异常安全的基本契约的四个层次: 1.不抛出保证。2.强异常安全。3.基本异常安全。4.无异常安全。</li>
+<li>应使用专门设计的用户定义类型（而非内置类型）作为异常。这句话的意思是我们当然可以<code>throw 7</code>,但是最好<code>throw runtime_error</code>甚至从runtime_error派生出自己的异常，这样的话可以附加额外的信息。</li>
+<li>在直接拥有对象时绝不抛出异常，会内存泄露。</li>
+<li>如果不能抛出异常，则考虑快速失败或者系统的使用错误代码。</li>
+</ul>
+<h1 id="Chapter12-常量和不变性"><a href="#Chapter12-常量和不变性" class="headerlink" title="Chapter12 常量和不变性"></a>Chapter12 常量和不变性</h1><ul>
+<li><strong>默认情况下，使对象不可变。</strong></li>
+<li>默认情况下，成员函数应声明为const。</li>
+<li>物理常量性：对象被声明为const，因此不能改变，它在内存中的表示方式是固定的。逻辑常量性：对象被声明为const，但可以被改变，它的逻辑值是固定的，但它在内存中的表示方式可能在运行期发生变化。</li>
+</ul>
+<h1 id="Chapter13-模板和泛型编程"><a href="#Chapter13-模板和泛型编程" class="headerlink" title="Chapter13 模板和泛型编程"></a>Chapter13 模板和泛型编程</h1><ul>
+<li>使用模板来提高代码的抽象程度。</li>
+<li>使用模板来表达适用于多种参数类型的算法。</li>
+<li>避免使用有常见名称的高可见度无约束模板，这会引起ADL的意外情况。</li>
+<li>如果模板不支持概念，可以使用enable_if来模拟。</li>
+<li>如果模板的成员不依赖于模板参数，请将其从模板中移出。</li>
+<li>…Args代表的是打包参数包，Args…代表的是解包参数包。</li>
+<li>理论上，模板元编程是图灵完备的，因此可以解决任何计算问题。</li>
+<li>类型特征库可以进行特征的处理，如进行类型检查，进行类型比较(eg:is_base_of)，进行类型修改(eg: remove_const),可以通过类型特征库来提高程序的正确性和性能优化。</li>
+</ul>
+<h1 id="Chapter14-C风格编程"><a href="#Chapter14-C风格编程" class="headerlink" title="Chapter14 C风格编程"></a>Chapter14 C风格编程</h1><ul>
+<li>不要使用c风格。</li>
+<li>extern “C” 链接说明符可以防止c++编译器重编这些名字。</li>
+</ul>
+<h1 id="Chapter15-源文件"><a href="#Chapter15-源文件" class="headerlink" title="Chapter15 源文件"></a>Chapter15 源文件</h1><ul>
+<li>.h文件不可含有对象定义或非内联函数定义。</li>
+<li>单一定义规则：ODR是One Definition Rule的缩写，就是说一个函数在任何翻译单元中不能有一个以上的定义。一个函数在程序中不能有一个以上的定义，有外部链接的内联函数可以在一个以上的翻译单元中被定义，这些定义必须满足一个要求：他们全部相同。</li>
+<li>避免对隐含#include进来的名字的依赖，如未将<string>加入程序中，但是gcc5.4以上版本会在<iostream>中包含<string>，<strong>所以要确保引入该引入的头文件</strong>。</string></iostream></string></li>
+<li><strong>不要在头文件的全局作用域中使用using namespace</strong></li>
+<li>不要在头文件使用匿名命名空间，并且为所有的内部/不导出的实体使用匿名命名空间。</li>
+</ul>
+<h1 id="Chapter16-标准库"><a href="#Chapter16-标准库" class="headerlink" title="Chapter16 标准库"></a>Chapter16 标准库</h1><ul>
+<li>优先采用vector，除非有别的理由用其他的容器，因为vector有最快的通用访问，最快的默认访问方式，最低的空间开销。</li>
+<li><strong>避免使用endl,而是\n，因为endl会刷新缓冲区，速度比\n慢10-20%</strong></li>
+</ul>
+<h1 id="Chapter17-架构观念"><a href="#Chapter17-架构观念" class="headerlink" title="Chapter17 架构观念"></a>Chapter17 架构观念</h1><ul>
+<li>从不稳定的代码中分离稳定的代码</li>
+<li>将潜在可复用的部分表达为程序库，当你会重用某功能至少两次时，应该把它写成一个库。</li>
+<li>程序库之间不应该有循环依赖。</li>
+</ul>
+<h1 id="Chapter18-伪规则和误解"><a href="#Chapter18-伪规则和误解" class="headerlink" title="Chapter18 伪规则和误解"></a>Chapter18 伪规则和误解</h1><ul>
+<li>不要坚持认为声明都应当放在函数的最上面。</li>
+<li>不要坚持在一个函数中只保留一条return语句。</li>
+<li>不要避免使用异常。</li>
+<li>不要坚持把每个类声明放在独立的源文件中。</li>
+<li>不要采用两阶段初始化。</li>
+<li>不要把所有清理操作放在函数末尾并使用goto exit。</li>
+<li>不要使所有数据成员protected。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">寻宝游戏</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/05/06/c++core%20guidelines%E7%AC%94%E8%AE%B0/">http://example.com/2024/05/06/c++core%20guidelines%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">寻宝游戏</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer=""></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/05/08/concpp%E8%A7%86%E9%A2%91%E8%A7%82%E7%9C%8B%E8%AE%B0%E5%BD%95/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info"></div></div></a></div><div class="next-post pull-right"><a href="/2024/04/21/%E6%89%8B%E6%9C%BA%E6%91%84%E5%BD%B1%E7%AC%94%E8%AE%B0/" title=""><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info"></div></div></a></div></nav><hr class="custom-hr"><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div id="comment-switch"><span class="first-comment">Gitalk</span><span class="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="author-info__name">寻宝游戏</div><div class="author-info__description">思维的乐趣。</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/enternityFan"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Do your own thing...</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%84%E5%88%99"><span class="toc-number">1.</span> <span class="toc-text">规则</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#chapter-2-%E7%90%86%E5%BF%B5"><span class="toc-number">2.</span> <span class="toc-text">chapter 2 理念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#chapter3-%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.</span> <span class="toc-text">chapter3 接口</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Chapter4-%E5%87%BD%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">Chapter4 函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Chapter5-%E7%B1%BB%E5%92%8C%E7%B1%BB%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84"><span class="toc-number">5.</span> <span class="toc-text">Chapter5 类和类层次结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#chapter6-%E6%9E%9A%E4%B8%BE"><span class="toc-number">6.</span> <span class="toc-text">chapter6 枚举</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#chapter7-%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86"><span class="toc-number">7.</span> <span class="toc-text">chapter7 资源管理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Chapter8-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%92%8C%E8%AF%AD%E5%8F%A5"><span class="toc-number">8.</span> <span class="toc-text">Chapter8 表达式和语句</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Chapter9-%E6%80%A7%E8%83%BD"><span class="toc-number">9.</span> <span class="toc-text">Chapter9 性能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Chapter10-%E5%B9%B6%E5%8F%91"><span class="toc-number">10.</span> <span class="toc-text">Chapter10 并发</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Chapter11-%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86"><span class="toc-number">11.</span> <span class="toc-text">Chapter11 错误处理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Chapter12-%E5%B8%B8%E9%87%8F%E5%92%8C%E4%B8%8D%E5%8F%98%E6%80%A7"><span class="toc-number">12.</span> <span class="toc-text">Chapter12 常量和不变性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Chapter13-%E6%A8%A1%E6%9D%BF%E5%92%8C%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B"><span class="toc-number">13.</span> <span class="toc-text">Chapter13 模板和泛型编程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Chapter14-C%E9%A3%8E%E6%A0%BC%E7%BC%96%E7%A8%8B"><span class="toc-number">14.</span> <span class="toc-text">Chapter14 C风格编程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Chapter15-%E6%BA%90%E6%96%87%E4%BB%B6"><span class="toc-number">15.</span> <span class="toc-text">Chapter15 源文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Chapter16-%E6%A0%87%E5%87%86%E5%BA%93"><span class="toc-number">16.</span> <span class="toc-text">Chapter16 标准库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Chapter17-%E6%9E%B6%E6%9E%84%E8%A7%82%E5%BF%B5"><span class="toc-number">17.</span> <span class="toc-text">Chapter17 架构观念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Chapter18-%E4%BC%AA%E8%A7%84%E5%88%99%E5%92%8C%E8%AF%AF%E8%A7%A3"><span class="toc-number">18.</span> <span class="toc-text">Chapter18 伪规则和误解</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/07/01/%E5%B7%A6%E7%A8%8B%E4%BA%91%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98/" title="无题">无题</a><time datetime="2024-07-01T00:56:47.038Z" title="发表于 2024-07-01 08:56:47">2024-07-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/06/16/%E9%9D%A2%E8%AF%95%E8%A3%85%E9%80%BC%E6%8C%87%E5%8D%97/" title="无题">无题</a><time datetime="2024-06-16T08:55:44.994Z" title="发表于 2024-06-16 16:55:44">2024-06-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/06/16/%E7%8E%B0%E4%BB%A3C++%E6%A6%82%E5%BF%B5%E7%AC%94%E8%AE%B0/" title="无题">无题</a><time datetime="2024-06-16T07:09:09.546Z" title="发表于 2024-06-16 15:09:09">2024-06-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/06/03/%E5%B7%A6%E7%A8%8B%E4%BA%91%E7%AE%97%E6%B3%95%E5%A4%8D%E4%B9%A0/" title="无题">无题</a><time datetime="2024-06-03T00:32:47.295Z" title="发表于 2024-06-03 08:32:47">2024-06-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/30/%E5%B0%8F%E5%BD%AD%E8%80%81%E5%B8%88%E7%BD%91%E8%AF%BE/" title="无题">无题</a><time datetime="2024-05-30T01:05:56.979Z" title="发表于 2024-05-30 09:05:56">2024-05-30</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">©2020 - 2025 By 寻宝游戏</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '',
+      clientSecret: '',
+      repo: '',
+      owner: '',
+      admin: [''],
+      id: 'f599b7f3e99f1df2558674cf13dbe411',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    getCSS('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css')
+    getScript('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.textContent= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !false) {
+  if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script><script>function loadDisqus () {
+  const disqus_config = function () {
+    this.page.url = 'http://example.com/2024/05/06/c++core%20guidelines%E7%AC%94%E8%AE%B0/'
+    this.page.identifier = '/2024/05/06/c++core%20guidelines%E7%AC%94%E8%AE%B0/'
+    this.page.title = ''
+  }
+
+  const disqusReset = () => {
+    DISQUS.reset({
+      reload: true,
+      config: disqus_config
+    })
+  }
+
+  btf.addModeChange('disqus', disqusReset)
+
+  if (window.DISQUS) disqusReset()
+  else {
+    (function() { 
+      var d = document, s = d.createElement('script');
+      s.src = 'https://.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  }
+}
+
+if ('Gitalk' === 'Disqus' || !false) {
+  if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+  else loadDisqus()
+} else {
+  function loadOtherComment () {
+    loadDisqus()
+  }
+}
+</script></div><div class="aplayer no-destroy" data-id="8507814393" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async="" data-pjax="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"></div></div><hr><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: true,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script><script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>
