@@ -1,0 +1,443 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>《软件测试的艺术》原书第3版的3.3节笔记-用于代码检查的错误列表 | 寻宝游戏</title><meta name="author" content="寻宝游戏"><meta name="copyright" content="寻宝游戏"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="用于代码检查的错误列表《软件测试的艺术》原书第3版的3.3节笔记。代码检查过程的一个重要部分就是对照一份错误列表，来检查程序是否存在常见错误。在写代码的时候还是要小心考虑是否自己的代码也有错误列表中描述的问题。 表格总结   3.3.1 数据引用错误1.是否有引用的变量未赋值或未初始化？ 2.对于所有的数组引用，是否每一个下标的值都在相应维规定的界限之内？3.对于所有的数组引用，是否每一个下标的值">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《软件测试的艺术》原书第3版的3.3节笔记-用于代码检查的错误列表">
+<meta property="og:url" content="http://example.com/2023/06/24/%E7%94%A8%E4%BA%8E%E4%BB%A3%E7%A0%81%E9%94%99%E8%AF%AF%E6%A3%80%E6%9F%A5%E7%9A%84%E9%94%99%E8%AF%AF%E5%88%97%E8%A1%A8/index.html">
+<meta property="og:site_name" content="寻宝游戏">
+<meta property="og:description" content="用于代码检查的错误列表《软件测试的艺术》原书第3版的3.3节笔记。代码检查过程的一个重要部分就是对照一份错误列表，来检查程序是否存在常见错误。在写代码的时候还是要小心考虑是否自己的代码也有错误列表中描述的问题。 表格总结   3.3.1 数据引用错误1.是否有引用的变量未赋值或未初始化？ 2.对于所有的数组引用，是否每一个下标的值都在相应维规定的界限之内？3.对于所有的数组引用，是否每一个下标的值">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg">
+<meta property="article:published_time" content="2023-06-24T12:13:48.000Z">
+<meta property="article:modified_time" content="2025-04-09T00:06:57.125Z">
+<meta property="article:author" content="寻宝游戏">
+<meta property="article:tag" content="软件测试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "《软件测试的艺术》原书第3版的3.3节笔记-用于代码检查的错误列表",
+  "url": "http://example.com/2023/06/24/%E7%94%A8%E4%BA%8E%E4%BB%A3%E7%A0%81%E9%94%99%E8%AF%AF%E6%A3%80%E6%9F%A5%E7%9A%84%E9%94%99%E8%AF%AF%E5%88%97%E8%A1%A8/",
+  "image": "https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg",
+  "datePublished": "2023-06-24T12:13:48.000Z",
+  "dateModified": "2025-04-09T00:06:57.125Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "寻宝游戏",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg"><link rel="canonical" href="http://example.com/2023/06/24/%E7%94%A8%E4%BA%8E%E4%BB%A3%E7%A0%81%E9%94%99%E8%AF%AF%E6%A3%80%E6%9F%A5%E7%9A%84%E9%94%99%E8%AF%AF%E5%88%97%E8%A1%A8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//busuanzi.ibruce.info"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '《软件测试的艺术》原书第3版的3.3节笔记-用于代码检查的错误列表',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/thought/"><i class="fa-fw fa fa-comments-o"></i><span> 杂思</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fa fa-book"></i><span> 读书笔记</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-camera-retro"></i><span> 图片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">寻宝游戏</span></a><a class="nav-page-title" href="/"><span class="site-name">《软件测试的艺术》原书第3版的3.3节笔记-用于代码检查的错误列表</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/thought/"><i class="fa-fw fa fa-comments-o"></i><span> 杂思</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fa fa-book"></i><span> 读书笔记</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-camera-retro"></i><span> 图片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">《软件测试的艺术》原书第3版的3.3节笔记-用于代码检查的错误列表</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-24T12:13:48.000Z" title="发表于 2023-06-24 20:13:48">2023-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-09T00:06:57.125Z" title="更新于 2025-04-09 08:06:57">2025-04-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF%E4%B9%A6%E7%B1%8D%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">技术书籍读书笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="用于代码检查的错误列表"><a href="#用于代码检查的错误列表" class="headerlink" title="用于代码检查的错误列表"></a>用于代码检查的错误列表</h1><p>《软件测试的艺术》原书第3版的3.3节笔记。代码检查过程的一个重要部分就是<strong>对照一份错误列表，来检查程序是否存在常见错误。</strong>在写代码的时候还是要小心考虑是否自己的代码也有错误列表中描述的问题。</p>
+<h1 id="表格总结"><a href="#表格总结" class="headerlink" title="表格总结"></a>表格总结</h1><p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/epub_35374439_17" alt="img"></p>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/epub_35374439_18" alt="img"></p>
+<p><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/epub_35374439_19" alt="img"></p>
+<h4 id="3-3-1-数据引用错误"><a href="#3-3-1-数据引用错误" class="headerlink" title="3.3.1 数据引用错误"></a>3.3.1 数据引用错误</h4><p>1.是否有引用的变量未赋值或未初始化？</p>
+<p>2.对于所有的数组引用，是否每一个下标的值都在相应维规定的界限之内？3.对于所有的数组引用，是否每一个下标的值都是整数？</p>
+<p>4.对于所有的通过指针或引用变量的引用，当前引用的内存单元是否分配？</p>
+<p>5.如果一个内存区域具有不同属性的别名，当通过别名进行引用时，内存区域中的数据值是否具有正确的属性？</p>
+<p>6.变量值的类型或属性是否与编译器所预期的一致？</p>
+<p>7.在使用的计算机上，当内存分配的单元小于内存可寻址的单元大小时，是否存在直接或间接的寻址错误？</p>
+<p>8.当使用指针或引用变量时，被引用的内存的属性是否与编译器所预期的一致？</p>
+<p>9.假如一个数据结构在多个过程或子程序中被引用，那么每个过程或子程序对该结构的定义是否都相同？</p>
+<p>10.如果字符串有索引，当对数组进行索引操作或下标引用，字符串的边界取值是否有“仅差一个”（off-by-one）的错误？</p>
+<p>11.对于面向对象的语言，是否所有的继承需求都在实现类中得到了满足？</p>
+<h4 id="3-3-2-数据声明错误"><a href="#3-3-2-数据声明错误" class="headerlink" title="3.3.2 数据声明错误"></a>3.3.2 数据声明错误</h4><p>1.是否所有的变量都进行了明确的声明？</p>
+<p>2.如果变量所有的属性在声明中没有明确说明，那么默认的属性能否被正确理解？</p>
+<p>3.如果变量在声明语句中被初始化，那么它的初始化是否正确？</p>
+<p>4.是否每个变量都被赋予了正确的长度和数据类型？5.变量的初始化是否与其存储空间的类型一致？</p>
+<p>6.是否存在着相似名称的变量（如VOLT和VOLTS）？</p>
+<h4 id="3-3-3-运算错误"><a href="#3-3-3-运算错误" class="headerlink" title="3.3.3 运算错误"></a>3.3.3 运算错误</h4><p>1.是否存在不一致的数据类型（如非算术类型）的变量间的运算？2.是否有混合模式的运算？例如，将浮点变量与一个整型变量做加法运算。</p>
+<p>3.是否有相同数据类型、不同字长变量间的运算？</p>
+<p>4.赋值语句的目标变量的数据类型是否小于右边表达式的数据类型或结果？</p>
+<p>5.在表达式的运算中是否存在表达式向上或向下溢出的情况？也就是说，最终的结果看起来是个有效值，但中间结果对于编程语言的数据类型可能过大或过小。</p>
+<p>6.除法运算中的除数是否可能为0？</p>
+<p>7.如果计算机表达变量的基本方式是基于二进制的，那么运算结果是否不精确？也就是说，在一个二进制计算机上，10×0.1很少会等于1.0。</p>
+<p>8.在特定场合，变量的值是否超出了有意义的范围？</p>
+<p>9.对于包含一个以上操作符的表达式，赋值顺序和操作符的优先顺序是否正确？</p>
+<p>10.整数的运算是否有使用不当的情况，尤其是除法？举例来说，如果i是一个整型变量，表达式2*i/2<mark>i是否成立，取决于i是奇数还是偶数，或是先运算乘法，还是先运算除法。</mark></p>
+<h4 id="3-3-4-比较错误"><a href="#3-3-4-比较错误" class="headerlink" title="3.3.4 比较错误"></a>3.3.4 比较错误</h4><p>1.是否有不同数据类型的变量之间的比较运算，例如，将字符串与地址、日期或数字相比较？</p>
+<p>2.是否有混合模式的比较运算，或不同长度的变量间的比较运算？如果有，应确保程序能正确理解转换规则。</p>
+<p>3.比较运算符是否正确？程序员经常混淆“至多”、“至少”、“大于”、“不小于”、“小于”和“等于”等比较关系。</p>
+<p>4.每个布尔表达式所叙述的内容是否都正确？在编写涉及“与”、“或”或“非”的表达式时，程序员经常犯错。</p>
+<p>5.布尔运算符的操作数是否是布尔类型的？比较运算符和布尔运算符是否错误地混在了一起？</p>
+<p>6.在二进制的计算机上，是否有用二进制表示的小数或浮点数的比较运算？</p>
+<p>8.编译器计算布尔表达式的方式是否会对程序产生影响？</p>
+<h4 id="3-3-5-控制流程错误"><a href="#3-3-5-控制流程错误" class="headerlink" title="3.3.5 控制流程错误"></a>3.3.5 控制流程错误</h4><p>1.如果程序包含多条分支路径，比如有计算GO TO语句，索引变量的值是否会大于可能的分支数量</p>
+<p>2.是否所有的循环最终都终止了？应设计一个非正式的证据或论据来证明每一个循环都会终止。</p>
+<p>3.程序、模块或子程序是否最终都终止了？</p>
+<p>4.由于实际情况没有满足循环的入口条件，循环体是否有可能从未执行过？如果确实发生这种情况，这里是否是一处疏漏？</p>
+<p>5.如果循环同时由迭代变量和一个布尔条件所控制（如一个搜索循环），如果循环越界（fall-through）了，后果会如何？</p>
+<p>6.是否存在“仅差一个”的错误，如迭代数量恰恰多一次或少一次？</p>
+<p>7.如果编程语言中有语句组或代码块的概念（例如do-while或{……}），是否每一组语句都有一个明确的while语句，并且do语句也与其相应的语句组对应？</p>
+<p>8.是否存在不能穷尽的判断？举例来说，如果一个输入参数的预期值是1，2或3，当参数值不为1或2时，在逻辑上是否假设了参数必定为3？</p>
+<h4 id="3-3-6-接口错误"><a href="#3-3-6-接口错误" class="headerlink" title="3.3.6 接口错误"></a>3.3.6 接口错误</h4><ol>
+<li>被调用模块接收到的形参（parameter）数量是否等于调用模块发送的实参（argument）数量？另外，顺序是否正确？</li>
+</ol>
+<p>2.实参的属性（如数据类型和大小）是否与相应形参的属性相匹配？</p>
+<p>3.实参的量纲是否与对应形参的量纲相匹配？举例来说，是否形参以度为单位而实参以弧度为单位？</p>
+<p>4.此模块传递给彼模块的实参数量，是否等于彼模块期望的形参数量？</p>
+<p>5.此模块传递给彼模块的实参的属性，是否与彼模块相应形参的属性相匹配？</p>
+<p>6.此模块传递给彼模块的实参的量纲，是否与彼模块相应形参的量纲相匹配？</p>
+<p>7.如果调用了内置函数，实参的数量、属性、顺序是否正确？</p>
+<p>8.如果某个模块或类有多个入口点，是否引用了与当前入口点无关的形参？</p>
+<p>9.是否有子程序改变了某个原本仅为输入值的形参？</p>
+<p>10.如果存在全局变量，在所有引用它们的模块中，它们的定义和属性是否相同？</p>
+<p>11.常数是否以实参形式传递过？</p>
+<h4 id="3-3-7-输入-输出错误"><a href="#3-3-7-输入-输出错误" class="headerlink" title="3.3.7 输入/输出错误"></a>3.3.7 输入/输出错误</h4><p>1.如果对文件明确声明过，其属性是否正确？</p>
+<p>2.打开文件的语句中各项属性的设置是否正确？</p>
+<p>3.格式规范是否与I/O语句中的信息相吻合？举例来说，在FORTRAN语言中，是否每个FORMAT语句都与相应的READ或WRITE语句相一致（就各项的数量和属性而言）？</p>
+<p>4.是否有足够的可用内存空间，来保留程序将读取的文件？</p>
+<p>5.是否所有的文件在使用之前都打开了？</p>
+<p>6.是否所有的文件在使用之后都关闭了？</p>
+<p>7.是否判断文件结束的条件，并正确处理？</p>
+<p>8.对I/O出错情况处理是否正确？</p>
+<p>9.任何打印或显示的文本信息中是否存在拼写或语法错误？</p>
+<p>10.程序是否正确处理了类似于“File Not Found”这样的错误？</p>
+<h4 id="3-3-8-其他检查"><a href="#3-3-8-其他检查" class="headerlink" title="3.3.8 其他检查"></a>3.3.8 其他检查</h4><p>1.如果编译器建立了一个标识符交叉引用列表，那么对该列表进行检查，查看是否有变量从未引用过，或仅被引用过一次。</p>
+<p>2.如果编译器建立了一个属性列表，那么对每个变量的属性进行检查，确保没有赋予过不希望的默认属性值。</p>
+<p>3.如果程序编译通过了，但计算机提供了一个或多个“警告”或“提示”信息，应对此逐一进行认真检查。“警告”信息指出编译器对程序某些操作的正确性有所怀疑；所有这些疑问都应进行检查。“提示”信息可能会罗列出没有声明的变量，或者是不利于代码优化的用法。</p>
+<p>4.程序或模块是否具有足够的鲁棒性？也就是说，它是否对其输入的合法性进行了检查？</p>
+<p>5.程序是否遗漏了某个功能？</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">寻宝游戏</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/06/24/%E7%94%A8%E4%BA%8E%E4%BB%A3%E7%A0%81%E9%94%99%E8%AF%AF%E6%A3%80%E6%9F%A5%E7%9A%84%E9%94%99%E8%AF%AF%E5%88%97%E8%A1%A8/">http://example.com/2023/06/24/%E7%94%A8%E4%BA%8E%E4%BB%A3%E7%A0%81%E9%94%99%E8%AF%AF%E6%A3%80%E6%9F%A5%E7%9A%84%E9%94%99%E8%AF%AF%E5%88%97%E8%A1%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">寻宝游戏</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/">软件测试</a></div><div class="post-share"><div class="social-share" data-image="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer=""></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2023/06/24/%E7%8E%B0%E4%BB%A3C++%E6%A6%82%E5%BF%B5%E7%AC%94%E8%AE%B0/" title="现代C++概念笔记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">现代C++概念笔记</div></div><div class="info-2"><div class="info-item-1">自己想到的建议 利用std::numeric_limits&lt;T&gt;::max()和std::numeric_limits&lt;T&gt;::min()的形式来获得某个类型的最大值和最小值,而不是使用宏。  很小很小的知识点 数据对齐问题会引起Alignment...</div></div></div></a><a class="pagination-related" href="/2023/07/10/%E3%80%8A%E5%A4%A7%E8%AF%9D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%8B%E7%AC%94%E8%AE%B0/" title="《大话设计模式》笔记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">《大话设计模式》笔记</div></div><div class="info-2"><div class="info-item-1">本书特色如果想成为一名更优秀的软件设计师，了解优秀软件设计的演变过程比学习优秀设计本身更有价值，因为设计的演变过程中蕴藏着大智慧。  1.11 UML类图继承关系用空心三角形+实线来表示 实现接口用空心三角形+虚线来表示。 关联关系用实线箭头来表示。 聚合表示一种弱的‘拥有’关系，体现的是A对象可以包含B对象，但B对象不是A对象的一部分。聚合关系用空心的菱形+实线箭头来表示。 合成（Composition，也有翻译成‘组合’的）是一种强的‘拥有’关系，体现了严格的部分和整体的关系，部分和整体的生命周期一样。 合成关系用实心的菱形+实线箭头来表示 合成关系的连线两端还有一个数字‘1’和数字‘2’，这被称为基数。表明这一端的类可以有几个实例 依赖关系（Dependency），用虚线箭头来表示。  2.4 策略模式策略模式（Strategy）：它定义了算法家族，分别封装起来，让它们之间可以互相替换，此模式让算法的变化，不会影响到使用算法的客户。  2.7...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2023/11/21/%E3%80%8A%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E7%9A%84%E8%89%BA%E6%9C%AF%E3%80%8B%E7%AC%94%E8%AE%B0/" title="《软件测试的艺术》笔记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-21</div><div class="info-item-2">《软件测试的艺术》笔记</div></div><div class="info-2"><div class="info-item-1">第1章 一次自评价测试所谓软件测试，就是一个过程或一系列过程，用来确认计算机代码完成了其应该完成的功能，不执行其不该有的操作。软件应当是可预测且稳定的，不会给用户带来意外惊奇。 第2章 软件测试的心理学和经济学要成功地测试一个软件应用程序，测试人员也需要有正确的态度（也许用“愿景”（vision）这个词会更好一些）。在某些情况下，测试人员的态度可能比实际的测试过程本身还要重要。 2.1 软件测试的心理学 每当测试一个程序时，应当想到要为程序增加一些价值。通过测试来增加程序的价值，是指测试提高了程序的可靠性或质量。提高了程序的可靠性，是指找出并最终修改了程序的错误。  测试是为发现错误而执行程序的过程。   ​	3....</div></div></div></a></div></div><hr class="custom-hr"><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Gitalk</span><span id="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="author-info-name">寻宝游戏</div><div class="author-info-description">思维的乐趣。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/enternityFan"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Do your own thing...</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%A8%E4%BA%8E%E4%BB%A3%E7%A0%81%E6%A3%80%E6%9F%A5%E7%9A%84%E9%94%99%E8%AF%AF%E5%88%97%E8%A1%A8"><span class="toc-number">1.</span> <span class="toc-text">用于代码检查的错误列表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A1%A8%E6%A0%BC%E6%80%BB%E7%BB%93"><span class="toc-number">2.</span> <span class="toc-text">表格总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-1-%E6%95%B0%E6%8D%AE%E5%BC%95%E7%94%A8%E9%94%99%E8%AF%AF"><span class="toc-number">2.0.0.1.</span> <span class="toc-text">3.3.1 数据引用错误</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-2-%E6%95%B0%E6%8D%AE%E5%A3%B0%E6%98%8E%E9%94%99%E8%AF%AF"><span class="toc-number">2.0.0.2.</span> <span class="toc-text">3.3.2 数据声明错误</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-3-%E8%BF%90%E7%AE%97%E9%94%99%E8%AF%AF"><span class="toc-number">2.0.0.3.</span> <span class="toc-text">3.3.3 运算错误</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-4-%E6%AF%94%E8%BE%83%E9%94%99%E8%AF%AF"><span class="toc-number">2.0.0.4.</span> <span class="toc-text">3.3.4 比较错误</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-5-%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B%E9%94%99%E8%AF%AF"><span class="toc-number">2.0.0.5.</span> <span class="toc-text">3.3.5 控制流程错误</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-6-%E6%8E%A5%E5%8F%A3%E9%94%99%E8%AF%AF"><span class="toc-number">2.0.0.6.</span> <span class="toc-text">3.3.6 接口错误</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-7-%E8%BE%93%E5%85%A5-%E8%BE%93%E5%87%BA%E9%94%99%E8%AF%AF"><span class="toc-number">2.0.0.7.</span> <span class="toc-text">3.3.7 输入/输出错误</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-8-%E5%85%B6%E4%BB%96%E6%A3%80%E6%9F%A5"><span class="toc-number">2.0.0.8.</span> <span class="toc-text">3.3.8 其他检查</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/09/%E6%89%8B%E6%9C%BA%E6%91%84%E5%BD%B1%E7%AC%94%E8%AE%B0/" title="手机摄影笔记">手机摄影笔记</a><time datetime="2025-04-09T00:06:57.125Z" title="发表于 2025-04-09 08:06:57">2025-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/09/%E3%80%8A%E4%BB%A3%E7%A0%81%E4%B9%8B%E4%B8%91%E3%80%8B%E7%AC%94%E8%AE%B0/" title="《代码之丑》笔记">《代码之丑》笔记</a><time datetime="2025-04-09T00:06:57.121Z" title="发表于 2025-04-09 08:06:57">2025-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/09/%E3%80%8A%E6%B4%BB%E7%9D%80%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/" title="活着读后感">活着读后感</a><time datetime="2025-04-09T00:06:57.121Z" title="发表于 2025-04-09 08:06:57">2025-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/09/%E5%B0%8F%E5%B2%9B%E7%BB%8F%E6%B5%8E%E5%AD%A6%E7%AC%94%E8%AE%B0/" title="小岛经济学笔记">小岛经济学笔记</a><time datetime="2025-04-09T00:06:57.121Z" title="发表于 2025-04-09 08:06:57">2025-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/09/hello-world/" title="Hello World">Hello World</a><time datetime="2025-04-09T00:06:57.117Z" title="发表于 2025-04-09 08:06:57">2025-04-09</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">©2020 - 2025 By 寻宝游戏</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: '',
+      clientSecret: '',
+      repo: '',
+      owner: '',
+      admin: [''],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || '37c5bdf21402ea19cb39dfc751efecb7'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const disqusReset = conf => {
+    window.DISQUS && window.DISQUS.reset({
+      reload: true,
+      config: conf
+    })
+  }
+
+  const loadDisqus = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyDisqus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    window.disqus_identifier = isShuoshuo ? path : '/2023/06/24/%E7%94%A8%E4%BA%8E%E4%BB%A3%E7%A0%81%E9%94%99%E8%AF%AF%E6%A3%80%E6%9F%A5%E7%9A%84%E9%94%99%E8%AF%AF%E5%88%97%E8%A1%A8/'
+    window.disqus_url = isShuoshuo ? location.origin + path : 'http://example.com/2023/06/24/%E7%94%A8%E4%BA%8E%E4%BB%A3%E7%A0%81%E9%94%99%E8%AF%AF%E6%A3%80%E6%9F%A5%E7%9A%84%E9%94%99%E8%AF%AF%E5%88%97%E8%A1%A8/'
+
+    const disqus_config = function () {
+      this.page.url = disqus_url
+      this.page.identifier = disqus_identifier
+      this.page.title = '《软件测试的艺术》原书第3版的3.3节笔记-用于代码检查的错误列表'
+    }
+
+    if (window.DISQUS) disqusReset(disqus_config)
+    else {
+      const script = document.createElement('script')
+      script.src = 'https://.disqus.com/embed.js'
+      script.setAttribute('data-timestamp', +new Date())
+      document.head.appendChild(script)
+    }
+
+    btf.addGlobalFn('themeChange', () => disqusReset(disqus_config), 'disqus')
+  }
+
+  const getCount = async() => {
+    try {
+      const eleGroup = document.querySelector('#post-meta .disqus-comment-count')
+      if (!eleGroup) return
+      const cleanedLinks = eleGroup.href.replace(/#post-comment$/, '')
+
+      const res = await fetch(`https://disqus.com/api/3.0/threads/set.json?forum=&api_key=&thread:link=${cleanedLinks}`,{
+        method: 'GET'
+      })
+      const result = await res.json()
+
+      const count = result.response.length ? result.response[0].posts : 0
+      eleGroup.textContent = count
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Disqus'
+      ? window.shuoshuoComment = { loadComment: loadDisqus }
+      : window.loadOtherComment = loadDisqus
+    return
+  }
+
+  if ('Gitalk' === 'Disqus' || !false) {
+    if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+    else {
+      loadDisqus()
+      
+    }
+  } else {
+    window.loadOtherComment = loadDisqus
+  }
+})()</script></div><div class="aplayer no-destroy" data-id="8507814393" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      false 
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async="" data-pjax="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: true,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script><script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>

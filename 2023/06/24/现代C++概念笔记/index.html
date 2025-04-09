@@ -1,0 +1,432 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>现代C++概念笔记 | 寻宝游戏</title><meta name="author" content="寻宝游戏"><meta name="copyright" content="寻宝游戏"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="自己想到的建议 利用std::numeric_limits<T>::max()和std::numeric_limits<T>::min()的形式来获得某个类型的最大值和最小值,而不是使用宏。  很小很小的知识点 数据对齐问题会引起Alignment Fault，《现代c++语言核心特性》  概念澄清   概念 说明 备注    重写（override） 在C++中是指派生类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="现代C++概念笔记">
+<meta property="og:url" content="http://example.com/2023/06/24/%E7%8E%B0%E4%BB%A3C++%E6%A6%82%E5%BF%B5%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="寻宝游戏">
+<meta property="og:description" content="自己想到的建议 利用std::numeric_limits<T>::max()和std::numeric_limits<T>::min()的形式来获得某个类型的最大值和最小值,而不是使用宏。  很小很小的知识点 数据对齐问题会引起Alignment Fault，《现代c++语言核心特性》  概念澄清   概念 说明 备注    重写（override） 在C++中是指派生类">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg">
+<meta property="article:published_time" content="2023-06-24T12:13:48.000Z">
+<meta property="article:modified_time" content="2025-04-09T00:06:57.125Z">
+<meta property="article:author" content="寻宝游戏">
+<meta property="article:tag" content="cpp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "现代C++概念笔记",
+  "url": "http://example.com/2023/06/24/%E7%8E%B0%E4%BB%A3C++%E6%A6%82%E5%BF%B5%E7%AC%94%E8%AE%B0/",
+  "image": "https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg",
+  "datePublished": "2023-06-24T12:13:48.000Z",
+  "dateModified": "2025-04-09T00:06:57.125Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "寻宝游戏",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg"><link rel="canonical" href="http://example.com/2023/06/24/%E7%8E%B0%E4%BB%A3C++%E6%A6%82%E5%BF%B5%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//busuanzi.ibruce.info"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '现代C++概念笔记',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/thought/"><i class="fa-fw fa fa-comments-o"></i><span> 杂思</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fa fa-book"></i><span> 读书笔记</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-camera-retro"></i><span> 图片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">寻宝游戏</span></a><a class="nav-page-title" href="/"><span class="site-name">现代C++概念笔记</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/thought/"><i class="fa-fw fa fa-comments-o"></i><span> 杂思</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fa fa-book"></i><span> 读书笔记</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-camera-retro"></i><span> 图片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">现代C++概念笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-24T12:13:48.000Z" title="发表于 2023-06-24 20:13:48">2023-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-09T00:06:57.125Z" title="更新于 2025-04-09 08:06:57">2025-04-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/cpp/">cpp</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">376</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="自己想到的建议"><a href="#自己想到的建议" class="headerlink" title="自己想到的建议"></a>自己想到的建议</h1><ul>
+<li>利用<code>std::numeric_limits&lt;T&gt;::max()</code>和<code>std::numeric_limits&lt;T&gt;::min()</code>的形式来获得某个类型的最大值和最小值,而不是使用宏。</li>
+</ul>
+<h1 id="很小很小的知识点"><a href="#很小很小的知识点" class="headerlink" title="很小很小的知识点"></a>很小很小的知识点</h1><ol>
+<li>数据对齐问题会引起Alignment Fault，《现代c++语言核心特性》</li>
+</ol>
+<h1 id="概念澄清"><a href="#概念澄清" class="headerlink" title="概念澄清"></a>概念澄清</h1><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>说明</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>重写（override）</td>
+<td>在C++中是指派生类覆盖了基类的虚函数，这里的覆盖必须满足有相同的函数签名和返回类型，也就是说有相同的函数名、形参列表以及返回类型。</td>
+<td><strong>重写很容易出错，建议加上override的说明符。</strong></td>
+</tr>
+<tr>
+<td>重载（overload）</td>
+<td>指在同一个类中有两个或者两个以上函数，它们的函数名相同，但是函数签名不同，也就是说有不同的形参。</td>
+<td></td>
+</tr>
+<tr>
+<td>隐藏（overwrite）</td>
+<td>隐藏是指基类成员函数，无论它是否为虚函数，当派生类出现同名函数时，如果派生类函数签名不同于基类函数，则基类函数会被隐藏。如果派生类函数签名与基类函数相同，则需要确定基类函数是否为虚函数，如果是虚函数，则这里的概念就是重写；否则基类函数也会被隐藏。另外，如果还想使用基类函数，可以使用using关键字将其引入派生类。</td>
+<td></td>
+</tr>
+<tr>
+<td>“Static Initialization Order Fiasco”</td>
+<td>指的是因为静态初始化顺序错误导致的问题。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">寻宝游戏</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/06/24/%E7%8E%B0%E4%BB%A3C++%E6%A6%82%E5%BF%B5%E7%AC%94%E8%AE%B0/">http://example.com/2023/06/24/%E7%8E%B0%E4%BB%A3C++%E6%A6%82%E5%BF%B5%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">寻宝游戏</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/cpp/">cpp</a></div><div class="post-share"><div class="social-share" data-image="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer=""></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2023/06/24/%E5%90%B4%E6%81%A9%E8%BE%BEPrompt%E7%BD%91%E8%AF%BE%E7%AC%94%E8%AE%B0/" title="吴恩达Prompt网课笔记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">吴恩达Prompt网课笔记</div></div><div class="info-2"><div class="info-item-1">吴恩达ChatGPT网课笔记Prompt Engineering——训练ChatGPT前请先训练自己主要是吴恩达的网课，还有部分github的prompt-engineering-for-developers项目，以及部分自己的经验。  一、常用使用技巧 prompt最好是英文的，如果是中文的prompt，大概会是英文的1.5~2倍的token数量。一方面成本提升，另一方面对于较长的prompt可能会超过上下文上限。  原则1：编写简洁和具体的介绍策略1：使用分隔符 “””  ```  - - -  &lt; &gt;  XML 标签：&lt;tag&gt; &lt;/tag&gt;   下图是一个例子，黄色部分其实也是需要总结的内容，不过如果没用三个单引号的分隔符，可能chatGPThuiba...</div></div></div></a><a class="pagination-related" href="/2023/06/24/%E7%94%A8%E4%BA%8E%E4%BB%A3%E7%A0%81%E9%94%99%E8%AF%AF%E6%A3%80%E6%9F%A5%E7%9A%84%E9%94%99%E8%AF%AF%E5%88%97%E8%A1%A8/" title="《软件测试的艺术》原书第3版的3.3节笔记-用于代码检查的错误列表"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">《软件测试的艺术》原书第3版的3.3节笔记-用于代码检查的错误列表</div></div><div class="info-2"><div class="info-item-1">用于代码检查的错误列表《软件测试的艺术》原书第3版的3.3节笔记。代码检查过程的一个重要部分就是对照一份错误列表，来检查程序是否存在常见错误。在写代码的时候还是要小心考虑是否自己的代码也有错误列表中描述的问题。 表格总结   3.3.1...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/05/06/c++core%20guidelines%E7%AC%94%E8%AE%B0/" title="C++Core Guidelines笔记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-06</div><div class="info-item-2">C++Core Guidelines笔记</div></div><div class="info-2"><div class="info-item-1">规则 DRY（dont repeat yourself) 不要重复自己，即不应该多次编写相同的代码。 KISS( keep it simple,stupid) 保持简单，让傻瓜都能理解。 NNN(No Naked New)不要裸的New的缩写，它意味着内存分配的结果应该交给一个管理者对象。 YAGNI(you aren’t gonna need it)你不会需要它原则，不要在代码中预先投入过多的精力以使其成为可重用的库，而是要先写出代码，使其有可能被复用。  chapter 2 理念 要注意未定义行为和实现定义行为。 代码赢表达意图。 理想情况下，程序应该是静态类型安全的。 编译期检查优先于运行期检查，编译期不能检查的应该在运行期检查，要尽早识别运行期错误。 不可变数据优先于可变数据，常量在并发程序中有很大的优势。 选择使用辅助工具。  chapter3...</div></div></div></a><a class="pagination-related" href="/2024/05/08/concpp%E8%A7%86%E9%A2%91%E8%A7%82%E7%9C%8B%E8%AE%B0%E5%BD%95/" title="cppcon视频观看笔记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-08</div><div class="info-item-2">cppcon视频观看笔记</div></div><div class="info-2"><div class="info-item-1">STL105为什么要了解STL105个算法？还要很好的了解？ 可以让代码表达的更好。 一般抽象级别更高。 有时非常壮观。 避免常见的错误，比如说off-by-one,empty loops,naive complexity. 被很多人使用，他们是c+++标准，并且一般和complier关系不大。  heaps123456789101112vector&lt;int&gt; v = {5, 3, 8, 1, 9, 2, 6, 7, 4};make_heap(begin(v), end(v));display(v);v.push_back(10);push_heap(begin(v), end(v));display(v);pop_heap(begin(v), end(v)); // 此时并不会删除，而是给他放到了最后。display(v);// 注意，使用sort_heap()函数会使序列失去堆的属性。sort_heap(begin(v),...</div></div></div></a><a class="pagination-related" href="/2024/01/08/%E3%80%8Ac++Primer%E3%80%8B%E7%AC%94%E8%AE%B0/" title="《c++Primer》笔记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-08</div><div class="info-item-2">《c++Primer》笔记</div></div><div class="info-2"><div class="info-item-1">第二章变量类型 类型char和类型signed...</div></div></div></a><a class="pagination-related" href="/2024/05/30/%E5%B0%8F%E5%BD%AD%E8%80%81%E5%B8%88%E7%BD%91%E8%AF%BE/" title="小彭老师网课"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-30</div><div class="info-item-2">小彭老师网课</div></div><div class="info-2"><div class="info-item-1">【C++20】编译期检测所有未定义行为和内存泄漏，不借助任何外部工具 使用未初始化的变量就属于未定义行为。 c++规定，编译期不准触发未定义行为。 通过添加constexpr来检测是否是未定义的:    编译期的单元测试:    常量表达式不能进行reinterpret_cast,可以看出多危险。。编译的时候都不通过:    c++标准为了适配迭代器的end()，允许指针超过实际长度1个字节:   但是超多了就不行了:   *end(a) 错误，不能访问end。 c风格的转换也是不行的,可以看出是被当做了指针。c也不允许乱转指针是因为x86是小端，为了让c跨平台的语言的保证，所以不允许。    加法溢出：、  int类型的溢出是UB的，但是unigned int类型的溢出是会回环的，是定义的行为。     new[]和delete不匹配的未定义行为:    甚至还可以检测内存泄露:    空指针解引用也有问题。 迭代器是现存现用的东西。  【C++】局部变量初始化，推荐用哪种写法？最不容易错？ 小彭老师推荐后置类型初始化，即利用auto声明，然后用变量类型赋值:auto i =...</div></div></div></a></div></div><hr class="custom-hr"><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Gitalk</span><span id="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="author-info-name">寻宝游戏</div><div class="author-info-description">思维的乐趣。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/enternityFan"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Do your own thing...</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%87%AA%E5%B7%B1%E6%83%B3%E5%88%B0%E7%9A%84%E5%BB%BA%E8%AE%AE"><span class="toc-number">1.</span> <span class="toc-text">自己想到的建议</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BE%88%E5%B0%8F%E5%BE%88%E5%B0%8F%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">很小很小的知识点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%E6%BE%84%E6%B8%85"><span class="toc-number">3.</span> <span class="toc-text">概念澄清</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/09/%E6%89%8B%E6%9C%BA%E6%91%84%E5%BD%B1%E7%AC%94%E8%AE%B0/" title="手机摄影笔记">手机摄影笔记</a><time datetime="2025-04-09T00:06:57.125Z" title="发表于 2025-04-09 08:06:57">2025-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/09/%E3%80%8A%E4%BB%A3%E7%A0%81%E4%B9%8B%E4%B8%91%E3%80%8B%E7%AC%94%E8%AE%B0/" title="《代码之丑》笔记">《代码之丑》笔记</a><time datetime="2025-04-09T00:06:57.121Z" title="发表于 2025-04-09 08:06:57">2025-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/09/%E3%80%8A%E6%B4%BB%E7%9D%80%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/" title="活着读后感">活着读后感</a><time datetime="2025-04-09T00:06:57.121Z" title="发表于 2025-04-09 08:06:57">2025-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/09/%E5%B0%8F%E5%B2%9B%E7%BB%8F%E6%B5%8E%E5%AD%A6%E7%AC%94%E8%AE%B0/" title="小岛经济学笔记">小岛经济学笔记</a><time datetime="2025-04-09T00:06:57.121Z" title="发表于 2025-04-09 08:06:57">2025-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/09/hello-world/" title="Hello World">Hello World</a><time datetime="2025-04-09T00:06:57.117Z" title="发表于 2025-04-09 08:06:57">2025-04-09</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">©2020 - 2025 By 寻宝游戏</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: '',
+      clientSecret: '',
+      repo: '',
+      owner: '',
+      admin: [''],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || 'cd426f32ee5cce7b6dfef087a942fc66'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const disqusReset = conf => {
+    window.DISQUS && window.DISQUS.reset({
+      reload: true,
+      config: conf
+    })
+  }
+
+  const loadDisqus = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyDisqus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    window.disqus_identifier = isShuoshuo ? path : '/2023/06/24/%E7%8E%B0%E4%BB%A3C++%E6%A6%82%E5%BF%B5%E7%AC%94%E8%AE%B0/'
+    window.disqus_url = isShuoshuo ? location.origin + path : 'http://example.com/2023/06/24/%E7%8E%B0%E4%BB%A3C++%E6%A6%82%E5%BF%B5%E7%AC%94%E8%AE%B0/'
+
+    const disqus_config = function () {
+      this.page.url = disqus_url
+      this.page.identifier = disqus_identifier
+      this.page.title = '现代C++概念笔记'
+    }
+
+    if (window.DISQUS) disqusReset(disqus_config)
+    else {
+      const script = document.createElement('script')
+      script.src = 'https://.disqus.com/embed.js'
+      script.setAttribute('data-timestamp', +new Date())
+      document.head.appendChild(script)
+    }
+
+    btf.addGlobalFn('themeChange', () => disqusReset(disqus_config), 'disqus')
+  }
+
+  const getCount = async() => {
+    try {
+      const eleGroup = document.querySelector('#post-meta .disqus-comment-count')
+      if (!eleGroup) return
+      const cleanedLinks = eleGroup.href.replace(/#post-comment$/, '')
+
+      const res = await fetch(`https://disqus.com/api/3.0/threads/set.json?forum=&api_key=&thread:link=${cleanedLinks}`,{
+        method: 'GET'
+      })
+      const result = await res.json()
+
+      const count = result.response.length ? result.response[0].posts : 0
+      eleGroup.textContent = count
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Disqus'
+      ? window.shuoshuoComment = { loadComment: loadDisqus }
+      : window.loadOtherComment = loadDisqus
+    return
+  }
+
+  if ('Gitalk' === 'Disqus' || !false) {
+    if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+    else {
+      loadDisqus()
+      
+    }
+  } else {
+    window.loadOtherComment = loadDisqus
+  }
+})()</script></div><div class="aplayer no-destroy" data-id="8507814393" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      false 
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async="" data-pjax="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: true,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script><script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>

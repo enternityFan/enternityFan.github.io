@@ -1,0 +1,419 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>《代码之丑》笔记 | 寻宝游戏</title><meta name="author" content="寻宝游戏"><meta name="copyright" content="寻宝游戏"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1. 开篇词写代码”有两个维度：正确性和可维护性，不要只关注正确性。能把代码写对，是每个程序员的必备技能，但能够把代码写得更具可维护性，这是一个程序员从业余迈向职业的第一步。 坏代码味道自查表命名：  命名是否具有业务含义 命名是否符合英语语法函数： 代码行是否超过()行 参数列表是否超过()个类： 类的字段是否超过()个 类之间的依赖关系是否符合架构规则语句： 是否使用 for 循环 是否使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《代码之丑》笔记">
+<meta property="og:url" content="http://example.com/2025/04/09/%E3%80%8A%E4%BB%A3%E7%A0%81%E4%B9%8B%E4%B8%91%E3%80%8B%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="寻宝游戏">
+<meta property="og:description" content="1. 开篇词写代码”有两个维度：正确性和可维护性，不要只关注正确性。能把代码写对，是每个程序员的必备技能，但能够把代码写得更具可维护性，这是一个程序员从业余迈向职业的第一步。 坏代码味道自查表命名：  命名是否具有业务含义 命名是否符合英语语法函数： 代码行是否超过()行 参数列表是否超过()个类： 类的字段是否超过()个 类之间的依赖关系是否符合架构规则语句： 是否使用 for 循环 是否使用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg">
+<meta property="article:published_time" content="2025-04-09T00:06:57.121Z">
+<meta property="article:modified_time" content="2025-04-09T01:00:22.608Z">
+<meta property="article:author" content="寻宝游戏">
+<meta property="article:tag" content="代码质量">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "《代码之丑》笔记",
+  "url": "http://example.com/2025/04/09/%E3%80%8A%E4%BB%A3%E7%A0%81%E4%B9%8B%E4%B8%91%E3%80%8B%E7%AC%94%E8%AE%B0/",
+  "image": "https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg",
+  "datePublished": "2025-04-09T00:06:57.121Z",
+  "dateModified": "2025-04-09T01:00:22.608Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "寻宝游戏",
+      "url": "http://example.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg"><link rel="canonical" href="http://example.com/2025/04/09/%E3%80%8A%E4%BB%A3%E7%A0%81%E4%B9%8B%E4%B8%91%E3%80%8B%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//busuanzi.ibruce.info"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '《代码之丑》笔记',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/thought/"><i class="fa-fw fa fa-comments-o"></i><span> 杂思</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fa fa-book"></i><span> 读书笔记</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-camera-retro"></i><span> 图片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">寻宝游戏</span></a><a class="nav-page-title" href="/"><span class="site-name">《代码之丑》笔记</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/thought/"><i class="fa-fw fa fa-comments-o"></i><span> 杂思</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fa fa-book"></i><span> 读书笔记</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-camera-retro"></i><span> 图片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">《代码之丑》笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-04-09T00:06:57.121Z" title="发表于 2025-04-09 08:06:57">2025-04-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-09T01:00:22.608Z" title="更新于 2025-04-09 09:00:22">2025-04-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E8%AF%BE%E7%AC%94%E8%AE%B0/">网课笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="1-开篇词"><a href="#1-开篇词" class="headerlink" title="1. 开篇词"></a>1. 开篇词</h1><p>写代码”有两个维度：正确性和可维护性，不要只关注正确性。能把代码写对，是每个程序员的必备技能，但能够把代码写得更具可维护性，这是一个程序员从业余迈向职业的第一步。</p>
+<p><strong>坏代码味道自查表</strong><br>命名：</p>
+<ol>
+<li>命名是否具有业务含义</li>
+<li>命名是否符合英语语法<br>函数：</li>
+<li>代码行是否超过()行</li>
+<li>参数列表是否超过()个<br>类：</li>
+<li>类的字段是否超过()个</li>
+<li>类之间的依赖关系是否符合架构规则<br>语句：</li>
+<li>是否使用 for 循环</li>
+<li>是否使用 else</li>
+<li>是否有重复的 switch</li>
+<li>一行代码中是否出现了连续的方法调用</li>
+<li>代码中是否出现了 setter</li>
+<li>变量声明之后是否有立即再赋值</li>
+<li>集合声明之后是否有立即添加元素</li>
+<li>返回值是否可以使用optional</li>
+</ol>
+<h1 id="01-缺乏业务含义的命名：如何精准命名？"><a href="#01-缺乏业务含义的命名：如何精准命名？" class="headerlink" title="01 | 缺乏业务含义的命名：如何精准命名？"></a>01 | 缺乏业务含义的命名：如何精准命名？</h1><ol>
+<li>命名不能过于宽泛，要能够精准的描述这段代码做的事情，也就是说一个好的名字应该可以描述意图，而非细节。</li>
+<li>不要用技术术语命名，因为面向接口编程，接口是稳定的，但是实现是易变的，命名中出现技术名词，往往是它缺少了一个模型。</li>
+<li>使用业务语言，好的命名是可以体现业务含义的命名的，可以考虑团队内部共建一个词汇表，来统一理解，这也是用集体智慧的表现。</li>
+</ol>
+<h1 id="02-乱用英语：站在中国人的视角来看英文命名"><a href="#02-乱用英语：站在中国人的视角来看英文命名" class="headerlink" title="02 | 乱用英语：站在中国人的视角来看英文命名"></a>02 | 乱用英语：站在中国人的视角来看英文命名</h1><ol>
+<li>类名是一个名词，表示一个对象，而方法名则是一个动词，或者是动宾短语，表示一个动作。</li>
+<li>不要违反语法规则，编写符合英语语法规则的代码。</li>
+</ol>
+<h1 id="03-重复代码：简单需求到处修改，怎么办？"><a href="#03-重复代码：简单需求到处修改，怎么办？" class="headerlink" title="03 | 重复代码：简单需求到处修改，怎么办？"></a>03 | 重复代码：简单需求到处修改，怎么办？</h1><ol>
+<li>消灭重复代码的原则：Don’t Repeat Yourself( DRY).每一处知识都必须有单一、明确、权威地表述</li>
+<li>结构重复，也是重复的代码。</li>
+<li>不要复制粘贴！不要结构重复，不要让if else代码块语句高度类似，如果有，可以考虑重构代码，比如提取公共函数。</li>
+</ol>
+<h1 id="04-长函数：为什么你总是不可避免地写出长函数？"><a href="#04-长函数：为什么你总是不可避免地写出长函数？" class="headerlink" title="04 | 长函数：为什么你总是不可避免地写出长函数？"></a>04 | 长函数：为什么你总是不可避免地写出长函数？</h1><ol>
+<li><strong>函数写的越短越好</strong>，长函数产生的关键原因是没有长函数的概念，讲师认为10行之上就算长，所以我们也应该尽量压缩函数的长度。表面的原因则是以性能为由、平铺直叙写代码、一次增加一点点代码。</li>
+<li>为了消灭长函数，我们可以定义好函数长度的标准，做好“分离关注点”，关注点越多越好，粒度越小越好，遵守童子军的军规：让营地比你来时更干净。每次我们修改原函数时，都要考虑。</li>
+</ol>
+<h1 id="05-大类：如何避免写出难以理解的大类？"><a href="#05-大类：如何避免写出难以理解的大类？" class="headerlink" title="05 | 大类：如何避免写出难以理解的大类？"></a>05 | 大类：如何避免写出难以理解的大类？</h1><ol>
+<li><strong>把类写小，越小越好。</strong>大类产生的主要原因是，职责不单一，还有一个常见原因是字段未分组。《ThoughtWorks 文集》中有个要求：每个类不超过两个字段。</li>
+</ol>
+<h1 id="06-长参数列表：如何处理不同类型的长参数？"><a href="#06-长参数列表：如何处理不同类型的长参数？" class="headerlink" title="06 | 长参数列表：如何处理不同类型的长参数？"></a>06 | 长参数列表：如何处理不同类型的长参数？</h1><ol>
+<li><strong>减小参数列表，越小越好。</strong></li>
+<li>典型的消除长参数列表的重构手法：将参数列表封装成对象。</li>
+<li>一个模型的封装应该是以行为为基础的。当我们封装了一个模型时，就要考虑为这个模型写其配套的行为。</li>
+<li>不同的数据变动方向也是不同的关注点。对于参数列表中有的参数变换频率大（动数据），有的数据变换的频率不大（静数据），可以考虑分离。但能够封装出这个类的前提条件是：这些参数属于一个类，有相同的变化原因。</li>
+<li>告别标记，可以考虑把标记的不同路径拆分出来为不同的函数。</li>
+<li></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">寻宝游戏</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2025/04/09/%E3%80%8A%E4%BB%A3%E7%A0%81%E4%B9%8B%E4%B8%91%E3%80%8B%E7%AC%94%E8%AE%B0/">http://example.com/2025/04/09/%E3%80%8A%E4%BB%A3%E7%A0%81%E4%B9%8B%E4%B8%91%E3%80%8B%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">寻宝游戏</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/">代码质量</a></div><div class="post-share"><div class="social-share" data-image="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer=""></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/04/09/hello-world/" title="Hello World"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Hello World</div></div><div class="info-2"><div class="info-item-1">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post"  More info: Writing Run server1$ hexo server  More info: Server Generate static files1$ hexo generate  More info: Generating Deploy to remote sites1$ hexo deploy  More info: Deployment </div></div></div></a><a class="pagination-related" href="/2025/04/09/%E3%80%8A%E6%B4%BB%E7%9D%80%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/" title="活着读后感"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">活着读后感</div></div><div class="info-2"><div class="info-item-1">想起来高中的时候曾经看过五遍活着。因为最近好久没有一口气看完一本书了，并且今天晚上又闲来无事，就想到了再次看一遍活着。这次看确实和以前看有了不同的感触。      我在上大学的时候没有再看过活着，因为一来高中的时候已经看过很多遍，二来觉得这本书非常的沉重，让人感到悲伤，所以不忍心去看。如今早已经忘了之前高中看的时候是怎样的感觉，可能只是简单的去理解了，人是为了活着而活着，不是为了活着以外的其他事情而活着。      ...</div></div></div></a></nav><hr class="custom-hr"><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Gitalk</span><span id="switch-btn"></span><span class="second-comment">Disqus</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div><div><div id="disqus_thread"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_loading.gif" data-original="https://fansimage-1314135665.cos.ap-nanjing.myqcloud.com/blog_headimg.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="author-info-name">寻宝游戏</div><div class="author-info-description">思维的乐趣。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/enternityFan"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Do your own thing...</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%BC%80%E7%AF%87%E8%AF%8D"><span class="toc-number">1.</span> <span class="toc-text">1. 开篇词</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#01-%E7%BC%BA%E4%B9%8F%E4%B8%9A%E5%8A%A1%E5%90%AB%E4%B9%89%E7%9A%84%E5%91%BD%E5%90%8D%EF%BC%9A%E5%A6%82%E4%BD%95%E7%B2%BE%E5%87%86%E5%91%BD%E5%90%8D%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">01 | 缺乏业务含义的命名：如何精准命名？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#02-%E4%B9%B1%E7%94%A8%E8%8B%B1%E8%AF%AD%EF%BC%9A%E7%AB%99%E5%9C%A8%E4%B8%AD%E5%9B%BD%E4%BA%BA%E7%9A%84%E8%A7%86%E8%A7%92%E6%9D%A5%E7%9C%8B%E8%8B%B1%E6%96%87%E5%91%BD%E5%90%8D"><span class="toc-number">3.</span> <span class="toc-text">02 | 乱用英语：站在中国人的视角来看英文命名</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#03-%E9%87%8D%E5%A4%8D%E4%BB%A3%E7%A0%81%EF%BC%9A%E7%AE%80%E5%8D%95%E9%9C%80%E6%B1%82%E5%88%B0%E5%A4%84%E4%BF%AE%E6%94%B9%EF%BC%8C%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="toc-number">4.</span> <span class="toc-text">03 | 重复代码：简单需求到处修改，怎么办？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#04-%E9%95%BF%E5%87%BD%E6%95%B0%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E6%80%BB%E6%98%AF%E4%B8%8D%E5%8F%AF%E9%81%BF%E5%85%8D%E5%9C%B0%E5%86%99%E5%87%BA%E9%95%BF%E5%87%BD%E6%95%B0%EF%BC%9F"><span class="toc-number">5.</span> <span class="toc-text">04 | 长函数：为什么你总是不可避免地写出长函数？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#05-%E5%A4%A7%E7%B1%BB%EF%BC%9A%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%E5%86%99%E5%87%BA%E9%9A%BE%E4%BB%A5%E7%90%86%E8%A7%A3%E7%9A%84%E5%A4%A7%E7%B1%BB%EF%BC%9F"><span class="toc-number">6.</span> <span class="toc-text">05 | 大类：如何避免写出难以理解的大类？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#06-%E9%95%BF%E5%8F%82%E6%95%B0%E5%88%97%E8%A1%A8%EF%BC%9A%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E4%B8%8D%E5%90%8C%E7%B1%BB%E5%9E%8B%E7%9A%84%E9%95%BF%E5%8F%82%E6%95%B0%EF%BC%9F"><span class="toc-number">7.</span> <span class="toc-text">06 | 长参数列表：如何处理不同类型的长参数？</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/09/%E6%89%8B%E6%9C%BA%E6%91%84%E5%BD%B1%E7%AC%94%E8%AE%B0/" title="手机摄影笔记">手机摄影笔记</a><time datetime="2025-04-09T00:06:57.125Z" title="发表于 2025-04-09 08:06:57">2025-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/09/%E3%80%8A%E4%BB%A3%E7%A0%81%E4%B9%8B%E4%B8%91%E3%80%8B%E7%AC%94%E8%AE%B0/" title="《代码之丑》笔记">《代码之丑》笔记</a><time datetime="2025-04-09T00:06:57.121Z" title="发表于 2025-04-09 08:06:57">2025-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/09/%E3%80%8A%E6%B4%BB%E7%9D%80%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/" title="活着读后感">活着读后感</a><time datetime="2025-04-09T00:06:57.121Z" title="发表于 2025-04-09 08:06:57">2025-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/09/%E5%B0%8F%E5%B2%9B%E7%BB%8F%E6%B5%8E%E5%AD%A6%E7%AC%94%E8%AE%B0/" title="小岛经济学笔记">小岛经济学笔记</a><time datetime="2025-04-09T00:06:57.121Z" title="发表于 2025-04-09 08:06:57">2025-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/09/hello-world/" title="Hello World">Hello World</a><time datetime="2025-04-09T00:06:57.117Z" title="发表于 2025-04-09 08:06:57">2025-04-09</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">©2020 - 2025 By 寻宝游戏</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  const initGitalk = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGitalk = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const gitalk = new Gitalk({
+      clientID: '',
+      clientSecret: '',
+      repo: '',
+      owner: '',
+      admin: [''],
+      updateCountCallback: commentCount,
+      ...option,
+      id: isShuoshuo ? path : (option && option.id) || '45a3d790094a1fd1c8087a359b80cf69'
+    })
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async(el, path) => {
+    if (typeof Gitalk === 'function') initGitalk(el, path)
+    else {
+      await btf.getCSS('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css')
+      await btf.getScript('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js')
+      initGitalk(el, path)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Gitalk'
+      ? window.shuoshuoComment = { loadComment: loadGitalk }
+      : window.loadOtherComment = loadGitalk
+    return
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const disqusReset = conf => {
+    window.DISQUS && window.DISQUS.reset({
+      reload: true,
+      config: conf
+    })
+  }
+
+  const loadDisqus = (el, path) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyDisqus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    window.disqus_identifier = isShuoshuo ? path : '/2025/04/09/%E3%80%8A%E4%BB%A3%E7%A0%81%E4%B9%8B%E4%B8%91%E3%80%8B%E7%AC%94%E8%AE%B0/'
+    window.disqus_url = isShuoshuo ? location.origin + path : 'http://example.com/2025/04/09/%E3%80%8A%E4%BB%A3%E7%A0%81%E4%B9%8B%E4%B8%91%E3%80%8B%E7%AC%94%E8%AE%B0/'
+
+    const disqus_config = function () {
+      this.page.url = disqus_url
+      this.page.identifier = disqus_identifier
+      this.page.title = '《代码之丑》笔记'
+    }
+
+    if (window.DISQUS) disqusReset(disqus_config)
+    else {
+      const script = document.createElement('script')
+      script.src = 'https://.disqus.com/embed.js'
+      script.setAttribute('data-timestamp', +new Date())
+      document.head.appendChild(script)
+    }
+
+    btf.addGlobalFn('themeChange', () => disqusReset(disqus_config), 'disqus')
+  }
+
+  const getCount = async() => {
+    try {
+      const eleGroup = document.querySelector('#post-meta .disqus-comment-count')
+      if (!eleGroup) return
+      const cleanedLinks = eleGroup.href.replace(/#post-comment$/, '')
+
+      const res = await fetch(`https://disqus.com/api/3.0/threads/set.json?forum=&api_key=&thread:link=${cleanedLinks}`,{
+        method: 'GET'
+      })
+      const result = await res.json()
+
+      const count = result.response.length ? result.response[0].posts : 0
+      eleGroup.textContent = count
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  if (isShuoshuo) {
+    'Gitalk' === 'Disqus'
+      ? window.shuoshuoComment = { loadComment: loadDisqus }
+      : window.loadOtherComment = loadDisqus
+    return
+  }
+
+  if ('Gitalk' === 'Disqus' || !false) {
+    if (false) btf.loadComment(document.getElementById('disqus_thread'), loadDisqus)
+    else {
+      loadDisqus()
+      
+    }
+  } else {
+    window.loadOtherComment = loadDisqus
+  }
+})()</script></div><div class="aplayer no-destroy" data-id="8507814393" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      false 
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async="" data-pjax="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: true,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script><script type="text/javascript" charset="utf-8" src="/js/lazyload-plugin/lazyload.intersectionObserver.min.js"></script></body></html>
